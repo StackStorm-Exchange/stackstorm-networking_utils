@@ -14,16 +14,16 @@
 
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
-from geoip import GeoIPAction
+from geoip import GeoIpAction
 
 __all__ = [
     'GeoIPActionTestCase'
 ]
 
 
-class GeoIPActionTestCase(NetworkingUtilsBaseActionTestCase):
+class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     __test__ = True
-    action_cls = GeoIPAction
+    action_cls = GeoIpAction
 
     def test_run_invalid_ip(self):
         expected = {"ok": False, "error": "Invalid IP"}
