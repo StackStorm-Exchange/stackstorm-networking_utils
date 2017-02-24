@@ -10,9 +10,9 @@ Configuration is only required for using the `geoip` action.
 ```yaml
 ---
 isp_enable: true
-isp_db: "pathto db"
+isp_db: "/path/to/GeoIP2-ISP.mmdb"
 city_enable: true
-city_db: "<path to db>"
+city_db: "/path/to/GeoLite2-City.mmdb"
 ```
 
 # Actions.
