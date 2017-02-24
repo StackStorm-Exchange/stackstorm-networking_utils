@@ -50,10 +50,11 @@ class GeoIpAction(Action):
 
         results['ip_address'] = ip_address
 
-        if self.config.isp_enable:
-            reader_isp = geoip2.database.Reader(self.config.isp_db)
+        if self.config['isp_enable']:
+            reader_isp = geoip2.database.Reader(self.config['isp_db'])
             response = reader_isp.isp(ip_address)
 
+            results['ok'] = True
             results['as_num'] = response.autonomous_system_number
             results['as_org'] = response.autonomous_system_organization
             results['isp'] = response.isp
@@ -61,14 +62,15 @@ class GeoIpAction(Action):
 
             reader_isp.close()
 
-        if self.config.city_enable:
-            reader_city = geoip2.database.Reader(self.config.city_db)
+        if self.config['city_enable']:
+            reader_city = geoip2.database.Reader(self.config['city_db'])
             response = reader_city.city(ip_address)
 
+            results['ok'] = True
             results['city'] = response.city.name
             results['country'] = response.country.name
-            results['latitude'] = response.location.latitude
-            results['longitude'] = response.location.longitude
+            results['latitude'] = response.location.latitude  # pylint: disable=no-member
+            results['longitude'] = response.location.longitude  # pylint: disable=no-member
 
             results['google_maps'] = "http://maps.google.com/maps/place/{name}/@{lat},{lon},{z}z".format(  # NOQA
                 name=ip_address,
