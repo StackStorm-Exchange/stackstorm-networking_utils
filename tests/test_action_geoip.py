@@ -42,7 +42,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(result, expected)
 
     def test_run_google_lookup(self):
-        expected = {}
+        expected = {"ok": True}
 
         action = self.get_action_instance()
 
