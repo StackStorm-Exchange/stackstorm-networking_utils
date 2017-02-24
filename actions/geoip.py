@@ -14,7 +14,7 @@
 # limitations under the License.
 
 import ipaddress
-#import geoip2.database
+# import geoip2.database
 
 from st2actions.runners.pythonrunner import Action
 
