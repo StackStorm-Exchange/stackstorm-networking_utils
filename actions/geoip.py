@@ -14,7 +14,7 @@
 # limitations under the License.
 
 import ipaddress
-# import geoip2.database
+import geoip2.database
 
 from st2actions.runners.pythonrunner import Action
 
@@ -48,6 +48,34 @@ class GeoIpAction(Action):
             results['error'] = "Can't geoup a Private IP"
             return results
 
-        # Load the DBs!
+        results['ip_address'] = ip_address
+
+        if self.config.isp_enable:
+            reader_isp = geoip2.database.Reader(self.config.isp_db)
+            response = reader_isp.isp(ip_address)
+
+            results['as_num'] = response.autonomous_system_number
+            results['as_org'] = response.autonomous_system_organization
+            results['isp'] = response.isp
+            results['org'] = response.organization
+
+            reader_isp.close()
+
+        if self.config.city_enable:
+            reader_city = geoip2.database.Reader(self.config.city_db)
+            response = reader_city.city(ip_address)
+
+            results['city'] = response.city.name
+            results['country'] = response.country.name
+            results['latitude'] = response.location.latitude
+            results['longitude'] = response.location.longitude
+
+            results['google_maps'] = "http://maps.google.com/maps/place/{name}/@{lat},{lon},{z}z".format(  # NOQA
+                name=ip_address,
+                z=10,
+                lat=results['latitude'],
+                lon=results['longitude'])
+
+            reader_city.close()
 
         return results
