@@ -40,7 +40,7 @@ class GeoIpAction(Action):
         # ip address is a string and not unicode.
         try:
             ip_obj = ipaddress.ip_address(unicode(ip_address))
-        except ipaddress.AddressValueError:
+        except ValueError:
             results['error'] = "Invalid IP"
             return results
 
