@@ -14,7 +14,7 @@
 
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
-from geo_ip import GeoIP
+from geoip import GeoIPAction
 
 __all__ = [
     'GeoIPActionTestCase'
@@ -23,12 +23,28 @@ __all__ = [
 
 class GeoIPActionTestCase(NetworkingUtilsBaseActionTestCase):
     __test__ = True
-    action_cls = geo_ip
+    action_cls = GeoIPAction
+
+    def test_run_invalid_ip(self):
+        expected = {"ok": False, "error": "Invalid IP"}
+
+        action = self.get_action_instance()
+
+        result = action.run(ip_address="this is not an ip address")
+        self.assertEqual(result, expected)
+
+    def test_run_invalid_private_ip(self):
+        expected = {"ok": False, "error": "Can't geoup a Private IP"}
+
+        action = self.get_action_instance()
+
+        result = action.run(ip_address="192.168.1.1")
+        self.assertEqual(result, expected)
 
     def test_run_google_lookup(self):
         expected = {}
 
         action = self.get_action_instance()
 
-        result = action.run("8.8.8.8")
+        result = action.run(ip_address="8.8.8.8")
         self.assertEqual(result, expected)
