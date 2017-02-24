@@ -17,7 +17,7 @@ from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 from geoip import GeoIpAction
 
 __all__ = [
-    'GeoIPActionTestCase'
+    'GeoIpActionTestCase'
 ]
 
 
