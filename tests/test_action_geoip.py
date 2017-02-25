@@ -12,6 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 
+from mock import MagicMock
+
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from geoip import GeoIpAction
@@ -40,6 +42,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
             "geoip": {"Not_an_IP": {"error": "Invalid IP"}}
         }
         action = self.get_action_instance(self.full_config)
+        action._get_databases = MagicMock(return_value=[True,True])
 
         result = action.run(ip_addresses=["Not_an_IP"])
         self.assertEqual(result, expected)
@@ -50,6 +53,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
             "geoip": {"192.168.1.1": {"error": "Private IP"}}
         }
         action = self.get_action_instance(self.full_config)
+        action._get_databases = MagicMock(return_value=[True,True])
 
         result = action.run(ip_addresses=["192.168.1.1"])
         self.assertEqual(result, expected)

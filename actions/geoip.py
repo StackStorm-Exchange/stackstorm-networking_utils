@@ -20,6 +20,23 @@ from st2actions.runners.pythonrunner import Action
 
 
 class GeoIpAction(Action):
+    def _get_databases(self):
+        """
+        Try to open all the GeoIP2 databases we need.
+        """
+
+        try:
+            reader_isp = geoip2.database.Reader(self.config['isp_db'])
+        except IOError:
+            reader_isp = None
+
+        try:
+            reader_city = geoip2.database.Reader(self.config['city_db'])
+        except IOError:
+            reader_city = None
+
+        return (reader_isp, reader_isp)
+
     def run(self, ip_addresses):
         """
         Return GeoIP information about an IP address
@@ -37,21 +54,13 @@ class GeoIpAction(Action):
 
         results = {"ok": False, "geoip": {}}
 
-        try:
-            reader_isp = geoip2.database.Reader(self.config['isp_db'])
-        except IOError:
-            reader_isp = None
-
-        try:
-            reader_city = geoip2.database.Reader(self.config['city_db'])
-        except IOError:
-            reader_city = None
+        (reader_isp, reader_city) = self._get_databases()
 
         if reader_city is None and reader_isp is None:
             results['error'] = "No GeoIP2 databases"
             return results
-
-        results["ok"] = True
+        else:
+            results["ok"] = True
 
         for ip_address in ip_addresses:
             details = {}
