@@ -23,6 +23,55 @@ __all__ = [
 ]
 
 
+class FakeISPReader(object):
+
+    @property
+    def autonomous_system_number(self):
+        return 12345
+
+    @property
+    def autonomous_system_organization(self):
+        return "Google"
+
+    @property
+    def isp(self):
+        return "Google"
+
+    @property
+    def organization(self):
+        return "Google"
+
+
+class FakeCity(object):
+    @property
+    def name(self):
+        return "London"
+
+
+class FakeCountry(object):
+    @property
+    def name(self):
+        return "UK"
+
+
+class FakeLocation(object):
+    @property
+    def latitude(self):
+        return 1.0
+
+    @property
+    def longitude(self):
+        return 1.0
+
+
+class FakeCityReader(object):
+
+    def __init__(self):
+        self.city = FakeCity()
+        self.country = FakeCountry()
+        self.location = FakeLocation()
+
+
 class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     __test__ = True
     action_cls = GeoIpAction
@@ -42,7 +91,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
             "geoip": {"Not_an_IP": {"error": "Invalid IP"}}
         }
         action = self.get_action_instance(self.full_config)
-        action._get_databases = MagicMock(return_value=[True,True])
+        action._get_databases = MagicMock(return_value=[True, True])
 
         result = action.run(ip_addresses=["Not_an_IP"])
         self.assertEqual(result, expected)
@@ -53,7 +102,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
             "geoip": {"192.168.1.1": {"error": "Private IP"}}
         }
         action = self.get_action_instance(self.full_config)
-        action._get_databases = MagicMock(return_value=[True,True])
+        action._get_databases = MagicMock(return_value=[True, True])
 
         result = action.run(ip_addresses=["192.168.1.1"])
         self.assertEqual(result, expected)
