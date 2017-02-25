@@ -6,9 +6,9 @@ name: "geoip"
 pack: "networking_utils"
 
 parameters:
-  ip_address:
-    type: "list"
-    description: "IP Address to valiadate"
+  ip_addresses:
+    type: "array"
+    description: "IP Addresses to valiadate"
     required: true
 
 runner_type: "python-script"
