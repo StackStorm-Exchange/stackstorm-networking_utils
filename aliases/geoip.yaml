@@ -1,0 +1,29 @@
+---
+name: "geoip"
+pack: "networking_utils"
+description: "Return GeoIP infomation for a list of IP Addressses."
+action_ref: "networking_utils.geoip"
+formats:
+  - display: "geoip <ip_address1,ip_address2,ip_address3>]"
+    representation:
+      - "geoip {{ip_addresses}}"
+ack:
+  enabled: false
+  append_url: false
+result:
+  format: |
+    {% if execution.status == 'succeeded' %}
+    {% if execution.result.result.ok %}
+    {% for key, details in execution.result.result.geoip %}
+    *{{key}}:*
+    {% for title, value in details %}
+    - _{{title}}:_ {{value}}
+    {% endfor %}
+
+    {% endfor %}
+    {% else %}
+    Error: {{execution.result.result.error}}
+    {% endif %}
+    {% else %}
+    Could not carry out your GeoIP lookup: See {{execution.id}} for details.{~}
+    {% endif %}
