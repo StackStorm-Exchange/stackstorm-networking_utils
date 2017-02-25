@@ -125,7 +125,33 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(result, expected)
 
     def test_run_google_lookup(self):
-        expected = {"ok": True}
+        expected = {
+            "ok": True,
+            "geoip": {
+                "8.8.8.8": {
+                    'AS Number': 12345,
+                    'AS Org': "Google",
+                    'ISP': "Google",
+                    'Org': "Google",
+                    'City': "London",
+                    'Country': "UK",
+                    'Lat': 1.0,
+                    'Lon': 1.0,
+                    'Google Maps': None
+                },
+                "8.8.4.4": {
+                    'AS Number': 12345,
+                    'AS Org': "Google",
+                    'ISP': "Google",
+                    'Org': "Google",
+                    'City': "London",
+                    'Country': "UK",
+                    'Lat': 1.0,
+                    'Lon': 1.0,
+                    'Google Maps': None
+                }
+            }
+        }
         action = self.get_action_instance(self.full_config)
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
                                                         FakeCityReader()])
