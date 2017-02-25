@@ -70,11 +70,11 @@ class GeoIpAction(Action):
             try:
                 ip_obj = ipaddress.ip_address(unicode(ip_address))
             except ValueError:
-                results['geoip'][ip_address]['error'] = "Invalid IP"
+                results['geoip'][ip_address] = {'error': "Invalid IP"}
                 continue
 
             if ip_obj.is_private:
-                results['geoip'][ip_address]['error'] = "Private IP"
+                results['geoip'][ip_address] = {'error': "Private IP"}
                 continue
 
             if reader_isp:
