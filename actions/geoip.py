@@ -103,6 +103,10 @@ class GeoIpAction(Action):
 
             results['geoip'][ip_address] = details
 
-        reader_city.close()
-        reader_isp.close()
+        if reader_city:
+            reader_city.close()
+
+        if reader_isp:
+            reader_isp.close()
+
         return results

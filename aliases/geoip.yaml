@@ -14,9 +14,9 @@ result:
   format: |
     {% if execution.status == 'succeeded' %}
     {% if execution.result.result.ok %}
-    {% for key, details in execution.result.result.geoip %}
+    {% for key, details in execution.result.result.geoip.iteritems() %}
     *{{key}}:*
-    {% for title, value in details %}
+    {% for title, value in details.iteritems() %}
     - _{{title}}:_ {{value}}
     {% endfor %}
 
