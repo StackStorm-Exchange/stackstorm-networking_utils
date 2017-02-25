@@ -23,7 +23,7 @@ __all__ = [
 ]
 
 
-class FakeISPReader(object):
+class FakeISP(object):
 
     @property
     def autonomous_system_number(self):
@@ -42,7 +42,15 @@ class FakeISPReader(object):
         return "Google"
 
 
-class FakeCity(object):
+class FakeISPReader(object):
+    def isp(self):
+        return FakeISP()
+
+    def close(self):
+        return True
+
+
+class FakeCityName(object):
     @property
     def name(self):
         return "London"
@@ -64,12 +72,19 @@ class FakeLocation(object):
         return 1.0
 
 
-class FakeCityReader(object):
-
+class FakeCity(object):
     def __init__(self):
-        self.city = FakeCity()
+        self.city = FakeCityName()
         self.country = FakeCountry()
         self.location = FakeLocation()
+
+
+class FakeCityReader(object):
+    def city(self):
+        return FakeCity()
+
+    def close(self):
+        return True
 
 
 class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
@@ -91,7 +106,8 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
             "geoip": {"Not_an_IP": {"error": "Invalid IP"}}
         }
         action = self.get_action_instance(self.full_config)
-        action._get_databases = MagicMock(return_value=[True, True])
+        action._get_databases = MagicMock(return_value=[FakeISPReader(),
+                                                        FakeCityReader()])
 
         result = action.run(ip_addresses=["Not_an_IP"])
         self.assertEqual(result, expected)
@@ -102,13 +118,17 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
             "geoip": {"192.168.1.1": {"error": "Private IP"}}
         }
         action = self.get_action_instance(self.full_config)
-        action._get_databases = MagicMock(return_value=[True, True])
+        action._get_databases = MagicMock(return_value=[FakeISPReader(),
+                                                        FakeCityReader()])
 
         result = action.run(ip_addresses=["192.168.1.1"])
         self.assertEqual(result, expected)
 
-    # def test_run_google_lookup(self):
-    #    expected = {"ok": True}
-    #    action = self.get_action_instance(self.full_config)
-    #    result = action.run(ip_addresses=["8.8.8.8","8.8.4.4"])
-    #    self.assertEqual(result, expected)
+    def test_run_google_lookup(self):
+        expected = {"ok": True}
+        action = self.get_action_instance(self.full_config)
+        action._get_databases = MagicMock(return_value=[FakeISPReader(),
+                                                        FakeCityReader()])
+
+        result = action.run(ip_addresses=["8.8.8.8", "8.8.4.4"])
+        self.assertEqual(result, expected)
