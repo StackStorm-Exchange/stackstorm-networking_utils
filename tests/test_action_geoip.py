@@ -125,6 +125,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(result, expected)
 
     def test_run_google_lookup(self):
+        self.maxDiff = None
         expected = {
             "ok": True,
             "geoip": {
