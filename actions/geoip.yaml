@@ -7,7 +7,7 @@ pack: "networking_utils"
 
 parameters:
   ip_address:
-    type: "string"
+    type: "list"
     description: "IP Address to valiadate"
     required: true
 

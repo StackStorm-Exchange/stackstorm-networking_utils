@@ -20,7 +20,7 @@ from st2actions.runners.pythonrunner import Action
 
 
 class GeoIpAction(Action):
-    def run(self, ip_address):
+    def run(self, ip_addresses):
         """
         Return GeoIP information about an IP address
 
@@ -31,53 +31,69 @@ class GeoIpAction(Action):
         - ValueError: On invalid database.
 
         Returns:
-        - dict: With GeoIP information about the IP address.
+        dict: with keys of IP address containing a dict of the
+        GeoIP information.
         """
 
-        results = {"ok": False}
+        results = {"ok": False, "geoip": {}}
 
-        # As ipaddress is a backport from Python 3.3+ it errors if the
-        # ip address is a string and not unicode.
         try:
-            ip_obj = ipaddress.ip_address(unicode(ip_address))
-        except ValueError:
-            results['error'] = "Invalid IP"
-            return results
-
-        if ip_obj.is_private:
-            results['error'] = "Can't geoup a Private IP"
-            return results
-
-        results['ip_address'] = ip_address
-
-        if self.config['isp_enable']:
             reader_isp = geoip2.database.Reader(self.config['isp_db'])
-            response = reader_isp.isp(ip_address)
+        except IOError:
+            reader_isp = None
 
-            results['ok'] = True
-            results['as_num'] = response.autonomous_system_number
-            results['as_org'] = response.autonomous_system_organization
-            results['isp'] = response.isp
-            results['org'] = response.organization
-
-            reader_isp.close()
-
-        if self.config['city_enable']:
+        try:
             reader_city = geoip2.database.Reader(self.config['city_db'])
-            response = reader_city.city(ip_address)
+        except IOError:
+            reader_city = None
 
-            results['ok'] = True
-            results['city'] = response.city.name
-            results['country'] = response.country.name
-            results['latitude'] = response.location.latitude  # pylint: disable=no-member
-            results['longitude'] = response.location.longitude  # pylint: disable=no-member
+        if reader_city is None and reader_isp is None:
+            results['error'] = "No GeoIP2 databases"
+            return results
 
-            results['google_maps'] = "http://maps.google.com/maps/place/{name}/@{lat},{lon},{z}z".format(  # NOQA
-                name=ip_address,
-                z=10,
-                lat=results['latitude'],
-                lon=results['longitude'])
+        results["ok"] = True
 
-            reader_city.close()
+        for ip_address in ip_addresses:
+            details = {}
 
+            # As ipaddress is a backport from Python 3.3+ it errors if the
+            # ip address is a string and not unicode.
+            try:
+                ip_obj = ipaddress.ip_address(unicode(ip_address))
+            except ValueError:
+                results['geoip'][ip_address]['error'] = "Invalid IP"
+                continue
+
+            if ip_obj.is_private:
+                results['geoip'][ip_address]['error'] = "Private IP"
+                continue
+
+            if reader_isp:
+                response = reader_isp.isp(ip_address)
+
+                details['AS Number'] = response.autonomous_system_number
+                details['AS Org'] = response.autonomous_system_organization
+                details['ISP'] = response.isp
+                details['Org'] = response.organization
+
+            if reader_city:
+                response = reader_city.city(ip_address)
+
+                details['City'] = response.city.name
+                details['Country'] = response.country.name
+                details['Lat'] = response.location.latitude  # NOQA pylint: disable=no-member
+                details['Lon'] = response.location.longitude  # NOQA pylint: disable=no-member
+
+                url = "maps.google.com/maps/place/"
+                details['Google Maps'] = "https://{url}/maps/place/{name}/@{lat},{lon},{z}z".format(  # NOQA
+                    url=url,
+                    name=ip_address,
+                    z=10,
+                    lat=results['latitude'],
+                    lon=results['longitude'])
+
+            results['geoip'][ip_address] = details
+
+        reader_city.close()
+        reader_isp.close()
         return results
