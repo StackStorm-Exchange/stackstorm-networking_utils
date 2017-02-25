@@ -14,6 +14,7 @@ result:
   format: |
     {% if execution.status == 'succeeded' %}
     {% if execution.result.result.ok %}
+    The GeoIP details you requested:{~}
     {% for key, details in execution.result.result.geoip.iteritems() %}
     *{{key}}:*
     {% for title, value in details.iteritems() %}
