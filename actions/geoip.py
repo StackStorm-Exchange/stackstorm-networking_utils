@@ -35,7 +35,7 @@ class GeoIpAction(Action):
         except IOError:
             reader_city = None
 
-        return (reader_isp, reader_isp)
+        return (reader_isp, reader_city)
 
     def run(self, ip_addresses):
         """
