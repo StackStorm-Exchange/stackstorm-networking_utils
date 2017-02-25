@@ -43,7 +43,7 @@ class FakeISP(object):
 
 
 class FakeISPReader(object):
-    def isp(self):
+    def isp(self, ip_address):
         return FakeISP()
 
     def close(self):
@@ -80,7 +80,7 @@ class FakeCity(object):
 
 
 class FakeCityReader(object):
-    def city(self):
+    def city(self, ip_address):
         return FakeCity()
 
     def close(self):
