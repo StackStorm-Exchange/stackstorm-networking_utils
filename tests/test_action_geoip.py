@@ -138,7 +138,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                     'Country': "UK",
                     'Lat': 1.0,
                     'Lon': 1.0,
-                    'Google Maps': 'https://maps.google.com/maps/place//maps/place/8.8.4.4/@1.0,1.0,10z'  # NOQA
+                    'Google Maps': 'https://maps.google.com/maps/place//maps/place/8.8.8.8/@1.0,1.0,10z'  # NOQA
                 },
                 "8.8.4.4": {
                     'AS Number': 12345,
