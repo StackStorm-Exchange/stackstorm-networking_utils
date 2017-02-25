@@ -98,8 +98,8 @@ class GeoIpAction(Action):
                     url=url,
                     name=ip_address,
                     z=10,
-                    lat=results['latitude'],
-                    lon=results['longitude'])
+                    lat=details['lat'],
+                    lon=details['lon'])
 
             results['geoip'][ip_address] = details
 
