@@ -31,7 +31,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                     "error": "No GeoIP2 databases"}
         action = self.get_action_instance()
 
-        result = action.run(ip_address="192.168.1.1")
+        result = action.run(ip_addresses=["192.168.1.1"])
         self.assertEqual(result, expected)
 
     def test_run_invalid_ip(self):
@@ -41,7 +41,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         }
         action = self.get_action_instance()
 
-        result = action.run(ip_address="Not_an_IP")
+        result = action.run(ip_addresses=["Not_an_IP"])
         self.assertEqual(result, expected)
 
     def test_run_invalid_private_ip(self):
@@ -51,11 +51,11 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         }
         action = self.get_action_instance()
 
-        result = action.run(ip_address="192.168.1.1")
+        result = action.run(ip_addresses=["192.168.1.1"])
         self.assertEqual(result, expected)
 
     # def test_run_google_lookup(self):
     #    expected = {"ok": True}
     #    action = self.get_action_instance()
-    #    result = action.run(ip_address="8.8.8.8")
+    #    result = action.run(ip_addresses=["8.8.8.8","8.8.4.4"])
     #    self.assertEqual(result, expected)
