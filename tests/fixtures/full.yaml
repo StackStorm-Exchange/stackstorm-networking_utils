@@ -1,5 +1,3 @@
 ---
-isp_enable: false
-isp_db: ~
-city_enable: false
-city_db: ~
+isp_db: "/opt/geoip2/GeoIP2-ISP.mmdb"
+city_db: "/opt/geoip2/GeoLite2-City.mmdb"
