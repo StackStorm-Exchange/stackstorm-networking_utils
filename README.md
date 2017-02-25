@@ -5,13 +5,12 @@ validation and flow control.
 
 ## Configuration
 
-Configuration is only required for using the `geoip` action.
+Configuration is only required is if you want to place the GeoIP2
+databases in a different location from the default.
 
 ```yaml
 ---
-isp_enable: true
 isp_db: "/path/to/GeoIP2-ISP.mmdb"
-city_enable: true
 city_db: "/path/to/GeoLite2-City.mmdb"
 ```
 
@@ -26,11 +25,11 @@ city_db: "/path/to/GeoLite2-City.mmdb"
 
 ## GeoIP
 
-To use the `geoip` action you need to download either the _city_
-(geolite2)[http://dev.maxmind.com/geoip/geoip2/geolite2/] (licensed
-under CC BY-SA 4.0) database or the commerical
-(City)[https://www.maxmind.com/en/geoip2-city] /
-(ISP)[https://www.maxmind.com/en/geoip2-isp-database] databases and
-then configure the paths to the databases in the configuration.
+To use the `geoip` action you need to download one at least one of the
+following:
 
+- The (City geolite2)[http://dev.maxmind.com/geoip/geoip2/geolite2/] (licensed under CC BY-SA 4.0) database.
+- The paid (City)[https://www.maxmind.com/en/geoip2-city]database.
+- The paid (ISP)[https://www.maxmind.com/en/geoip2-isp-database] database.
 
+These are the only databases currently supported.
