@@ -92,8 +92,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     action_cls = GeoIpAction
 
     def test_run_no_databases(self):
-        expected = {"ok": False,
-                    "geoip": {},
+        expected = {"geoip": {},
                     "error": "No GeoIP2 databases"}
         action = self.get_action_instance(self.full_config)
 
@@ -102,8 +101,14 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
 
     def test_run_invalid_ip(self):
         expected = {
-            "ok": True,
-            "geoip": {"Not_an_IP": {"error": "Invalid IP: u'Not_an_IP' does not appear to be an IPv4 or IPv6 address"}}  # NOQA
+            "geoip": {
+                "Not_an_IP": {
+                    "error": {
+                        "name": "Error",
+                        "value": "Invalid IP: u'Not_an_IP' does not appear to be an IPv4 or IPv6 address"  # NOQA
+                    }
+                }
+            }
         }
         action = self.get_action_instance(self.full_config)
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
@@ -114,8 +119,14 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
 
     def test_run_invalid_private_ip(self):
         expected = {
-            "ok": True,
-            "geoip": {"192.168.1.1": {"error": "Private IP"}}
+            "geoip": {
+                "192.168.1.1": {
+                    "error": {
+                        'name': "Error",
+                        'value': "Private IP"
+                    }
+                }
+            }
         }
         action = self.get_action_instance(self.full_config)
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
@@ -127,29 +138,64 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     def test_run_google_lookup(self):
         self.maxDiff = None
         expected = {
-            "ok": True,
             "geoip": {
                 "8.8.8.8": {
-                    'AS Number': 12345,
-                    'AS Org': "Google",
-                    'ISP': "Google",
-                    'Org': "Google",
-                    'City': "London",
-                    'Country': "UK",
-                    'Lat': 1.0,
-                    'Lon': 1.0,
-                    'Google Maps': 'https://maps.google.com/maps/place//maps/place/8.8.8.8/@1.0,1.0,10z'  # NOQA
+                    'as_number': {'name': "AS Number",
+                                  'value': 12345
+                    },
+                    'as_org': {'name': "AS Org",
+                               'value': "Google"
+                    },
+                    'isp': {'name': "ISP",
+                            'value': "Google"
+                    },
+                    'org': {'name': "Org",
+                            'value': "Google"
+                    },
+                    'city': {'name': "City",
+                             'value': "London"
+                    },
+                    'country': {'name': "Country",
+                                'value': "UK"
+                    },
+                    'lat': {'name': "Lat",
+                            'value': 1.0
+                    },
+                    'lon': {'name': "Lon",
+                            'value': 1.0
+                    },
+                    'link': {'name': "Google Maps",
+                             'value': 'https://maps.google.com/maps/place//maps/place/8.8.8.8/@1.0,1.0,10z'  # NOQA
+                    }
                 },
                 "8.8.4.4": {
-                    'AS Number': 12345,
-                    'AS Org': "Google",
-                    'ISP': "Google",
-                    'Org': "Google",
-                    'City': "London",
-                    'Country': "UK",
-                    'Lat': 1.0,
-                    'Lon': 1.0,
-                    'Google Maps': 'https://maps.google.com/maps/place//maps/place/8.8.4.4/@1.0,1.0,10z'  # NOQA
+                    'as_number': {'name': "AS Number",
+                                  'value': 12345
+                    },
+                    'as_org': {'name': "AS Org",
+                               'value': "Google"
+                    },
+                    'isp': {'name': "ISP",
+                            'value': "Google"
+                    },
+                    'org': {'name': "Org",
+                            'value': "Google"
+                    },
+                    'city': {'name': "City",
+                             'value': "London"
+                    },
+                    'country': {'name': "Country",
+                                'value': "UK"
+                    },
+                    'lat': {'name': "Lat",
+                            'value': 1.0
+                    },
+                    'lon': {'name': "Lon",
+                            'value': 1.0
+                    },
+                    'link': {'name': "Google Maps",
+                             'value': 'https://maps.google.com/maps/place//maps/place/8.8.4.4/@1.0,1.0,10z'  # NOQA
+                    }
                 }
             }
         }

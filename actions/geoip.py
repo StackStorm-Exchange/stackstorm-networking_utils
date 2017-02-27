@@ -72,37 +72,49 @@ class GeoIpAction(Action):
                 ip_obj = ipaddress.ip_address(unicode(ip_address))
             except ValueError, e:
                 results['geoip'][ip_address] = {
-                    'error': "Invalid IP: {}".format(e)
+                    'error': {'name': "Error",
+                              'value': "Invalid IP: {}".format(e)}
                 }
                 continue
 
             if ip_obj.is_private:
-                results['geoip'][ip_address] = {'error': "Private IP"}
+                details['error'] = {'name': "Error",
+                                    'value': "Private IP"}
+                results['geoip'][ip_address] = details
                 continue
 
             if reader_isp:
                 response = reader_isp.isp(ip_address)
 
-                details['AS Number'] = response.autonomous_system_number
-                details['AS Org'] = response.autonomous_system_organization
-                details['ISP'] = response.isp
-                details['Org'] = response.organization
+                details['as_num'] = {'name': "AS Number",
+                                     'value': response.autonomous_system_number}  # NOQA
+                details['as_org'] = {'name': "AS Org",
+                                     'value': response.autonomous_system_organization}  # NOQA
+                details['isp'] = {'name': "ISP",
+                                  'value': response.isp}
+                details['org'] = {'name': "Org",
+                                  'value': response.organization}
 
             if reader_city:
                 response = reader_city.city(ip_address)
 
-                details['City'] = response.city.name
-                details['Country'] = response.country.name
-                details['Lat'] = response.location.latitude  # NOQA pylint: disable=no-member
-                details['Lon'] = response.location.longitude  # NOQA pylint: disable=no-member
+                details['city'] = {'name': "City",
+                                   'value': response.city.name}
+                details['country'] = {'name': "Country",
+                                      'value': response.country.name}
+                details['lat'] = {'name': "Lat",
+                                  'value': response.location.latitude}  # NOQA pylint: disable=no-member
+                details['lon'] = {'name': "Lon",
+                                  'value': response.location.longitude}  # NOQA pylint: disable=no-member
 
                 url = "maps.google.com/maps/place/"
-                details['Google Maps'] = "https://{url}/maps/place/{name}/@{lat},{lon},{z}z".format(  # NOQA
+                details['link'] = {'name': "Google Maps",
+                                   'value': "https://{url}/maps/place/{name}/@{lat},{lon},{z}z".format(  # NOQA
                     url=url,
                     name=ip_address,
-                    z=10,
-                    lat=details['Lat'],
-                    lon=details['Lon'])
+                    z=15,
+                    lat=details['lat']['value'],
+                    lon=details['lon']['value'])}
 
             results['geoip'][ip_address] = details
 

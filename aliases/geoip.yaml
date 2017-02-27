@@ -16,10 +16,9 @@ result:
     The GeoIP details you requested:{~}
     {% for key, details in execution.result.result.geoip.iteritems() %}
     *{{key}}:*
-    {% for title, value in details.iteritems() %}
-    - _{{title}}:_ {{value}}
+    {% for title, item in details.iteritems() %}
+      _{{item.name}}:_ {{item.value}}
     {% endfor %}
-
     {% endfor %}
     {% else %}
     Could not carry out your GeoIP lookup: {{execution.result.result.error}}{~}
