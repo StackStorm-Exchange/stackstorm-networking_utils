@@ -24,7 +24,7 @@ class GeoIP(BaseActionAliasTestCase):
 
         command = "geoip 192.168.1.1,192.168.1.2"
         expected_parameters = {
-            'ipaddresses': ["192.168.1.1", "192.168.1.2"]
+            'ipaddresses': "192.168.1.1,192.168.1.2"
         }
 
         self.assertExtractedParametersMatch(format_string=format_string,
