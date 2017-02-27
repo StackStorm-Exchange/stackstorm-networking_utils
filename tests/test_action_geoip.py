@@ -100,6 +100,8 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(result, expected)
 
     def test_run_invalid_ip(self):
+        self.maxDiff = None
+
         expected = {
             "geoip": {
                 "Not_an_IP": {
@@ -118,6 +120,8 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(result, expected)
 
     def test_run_invalid_private_ip(self):
+        self.maxDiff = None
+
         expected = {
             "geoip": {
                 "192.168.1.1": {
@@ -137,6 +141,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
 
     def test_run_google_lookup(self):
         self.maxDiff = None
+
         expected = {
             "geoip": {
                 "8.8.8.8": {
@@ -164,7 +169,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                     'lon': {'name': "Lon",
                             'value': 1.0
                     },
-                    'link': {'name': "Google Maps",
+                    'link': {'name': "Google Map",
                              'value': 'https://maps.google.com/maps/place//maps/place/8.8.8.8/@1.0,1.0,10z'  # NOQA
                     }
                 },
@@ -193,7 +198,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                     'lon': {'name': "Lon",
                             'value': 1.0
                     },
-                    'link': {'name': "Google Maps",
+                    'link': {'name': "Google Map",
                              'value': 'https://maps.google.com/maps/place//maps/place/8.8.4.4/@1.0,1.0,10z'  # NOQA
                     }
                 }
