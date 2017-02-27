@@ -52,15 +52,16 @@ class GeoIpAction(Action):
         GeoIP information.
         """
 
-        results = {"ok": False, "geoip": {}}
+        results = {"geoip": {}}
+        status = False
 
         (reader_isp, reader_city) = self._get_databases()
 
         if reader_city is None and reader_isp is None:
             results['error'] = "No GeoIP2 databases"
-            return results
+            return (status, results)
         else:
-            results["ok"] = True
+            status = True
 
         for ip_address in ip_addresses:
             details = {}
@@ -111,4 +112,4 @@ class GeoIpAction(Action):
         if reader_isp:
             reader_isp.close()
 
-        return results
+        return (status, results)
