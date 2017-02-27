@@ -103,7 +103,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     def test_run_invalid_ip(self):
         expected = {
             "ok": True,
-            "geoip": {"Not_an_IP": {"error": "Invalid IP: u'Not_an_IP' does not appear to be an IPv4 or IPv6 address"}}
+            "geoip": {"Not_an_IP": {"error": "Invalid IP: u'Not_an_IP' does not appear to be an IPv4 or IPv6 address"}}  # NOQA
         }
         action = self.get_action_instance(self.full_config)
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
