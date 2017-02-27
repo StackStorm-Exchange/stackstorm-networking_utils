@@ -148,8 +148,8 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         expected = {
             "geoip": {
                 "8.8.8.8": {
-                    'as_number': {'name': "AS Number",
-                                  'value': 12345
+                    'as_num': {'name': "AS Number",
+                               'value': 12345
                     },
                     'as_org': {'name': "AS Org",
                                'value': "Google"
@@ -173,12 +173,12 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                             'value': 1.0
                     },
                     'link': {'name': "Google Map",
-                             'value': 'https://maps.google.com/maps/place//maps/place/8.8.8.8/@1.0,1.0,10z'  # NOQA
+                             'value': 'https://maps.google.com/maps/place//@1.0,1.0,10z'  # NOQA
                     }
                 },
                 "8.8.4.4": {
-                    'as_number': {'name': "AS Number",
-                                  'value': 12345
+                    'as_num': {'name': "AS Number",
+                               'value': 12345
                     },
                     'as_org': {'name': "AS Org",
                                'value': "Google"
@@ -202,7 +202,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                             'value': 1.0
                     },
                     'link': {'name': "Google Map",
-                             'value': 'https://maps.google.com/maps/place//maps/place/8.8.4.4/@1.0,1.0,10z'  # NOQA
+                             'value': 'https://maps.google.com/maps/place//@1.0,1.0,10z'  # NOQA
                     }
                 }
             }
