@@ -69,8 +69,10 @@ class GeoIpAction(Action):
             # ip address is a string and not unicode.
             try:
                 ip_obj = ipaddress.ip_address(unicode(ip_address))
-            except ValueError:
-                results['geoip'][ip_address] = {'error': "Invalid IP"}
+            except ValueError, e:
+                results['geoip'][ip_address] = {
+                    'error': "Invalid IP: {}".format(e)
+                }
                 continue
 
             if ip_obj.is_private:
