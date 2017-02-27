@@ -13,7 +13,6 @@ ack:
 result:
   format: |
     {% if execution.status == 'succeeded' %}
-    {% if execution.result.result.ok %}
     The GeoIP details you requested:{~}
     {% for key, details in execution.result.result.geoip.iteritems() %}
     *{{key}}:*
@@ -23,8 +22,6 @@ result:
 
     {% endfor %}
     {% else %}
-    Error: {{execution.result.result.error}}
-    {% endif %}
-    {% else %}
-    Could not carry out your GeoIP lookup: See {{execution.id}} for details.{~}
+    Could not carry out your GeoIP lookup: {{execution.result.result.error}}{~}
+    See `{{execution.id}}` for more details.
     {% endif %}
