@@ -26,10 +26,13 @@ city_db: "/path/to/GeoLite2-City.mmdb"
 ## GeoIP
 
 To use the `geoip` action you need to download one at least one of the
-following:
+following databases:
 
 - The (City geolite2)[http://dev.maxmind.com/geoip/geoip2/geolite2/] (licensed under CC BY-SA 4.0) database.
-- The paid (City)[https://www.maxmind.com/en/geoip2-city]database.
+- The paid (City)[https://www.maxmind.com/en/geoip2-city] database.
 - The paid (ISP)[https://www.maxmind.com/en/geoip2-isp-database] database.
 
-These are the only databases currently supported.
+And place into `/opt/geoip2/` or if you install elsewhere you'll need
+to create a config file with the paths.
+
+Currently only the _City_ and _ISP_ databases currently supported.
