@@ -96,7 +96,8 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                     "error": "No GeoIP2 databases"}
         action = self.get_action_instance(self.full_config)
 
-        result = action.run(ip_addresses=["192.168.1.1"])
+        (status, result) = action.run(ip_addresses=["192.168.1.1"])
+        self.assertFalse(status)
         self.assertEqual(result, expected)
 
     def test_run_invalid_ip(self):
@@ -116,7 +117,8 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
                                                         FakeCityReader()])
 
-        result = action.run(ip_addresses=["Not_an_IP"])
+        (status, result) = action.run(ip_addresses=["Not_an_IP"])
+        self.assertTrue(status)
         self.assertEqual(result, expected)
 
     def test_run_invalid_private_ip(self):
@@ -136,7 +138,8 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
                                                         FakeCityReader()])
 
-        result = action.run(ip_addresses=["192.168.1.1"])
+        (status, result) = action.run(ip_addresses=["192.168.1.1"])
+        self.assertTrue(status)
         self.assertEqual(result, expected)
 
     def test_run_google_lookup(self):
@@ -208,5 +211,6 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
                                                         FakeCityReader()])
 
-        result = action.run(ip_addresses=["8.8.8.8", "8.8.4.4"])
+        (status, result) = action.run(ip_addresses=["8.8.8.8", "8.8.4.4"])
+        self.assertTrue(status)
         self.assertEqual(result, expected)
