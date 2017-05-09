@@ -42,9 +42,28 @@ class FakeISP(object):
         return "Google"
 
 
+class FakeASN(object):
+
+    @property
+    def autonomous_system_number(self):
+        return 12345
+
+    @property
+    def autonomous_system_organization(self):
+        return "Google"
+
+
 class FakeISPReader(object):
     def isp(self, ip_address):
         return FakeISP()
+
+    def close(self):
+        return True
+
+
+class FakeASNReader(object):
+    def isp(self, ip_address):
+        return FakeASN()
 
     def close(self):
         return True
@@ -115,6 +134,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         }
         action = self.get_action_instance(self.full_config)
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
+                                                        FakeASNReader(),
                                                         FakeCityReader()])
 
         (status, result) = action.run(ip_addresses=["Not_an_IP"])
@@ -136,6 +156,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         }
         action = self.get_action_instance(self.full_config)
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
+                                                        FakeASNReader(),
                                                         FakeCityReader()])
 
         (status, result) = action.run(ip_addresses=["192.168.1.1"])
@@ -209,6 +230,69 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         }
         action = self.get_action_instance(self.full_config)
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
+                                                        FakeASNReader(),
+                                                        FakeCityReader()])
+
+        (status, result) = action.run(ip_addresses=["8.8.8.8", "8.8.4.4"])
+        self.assertTrue(status)
+        self.assertEqual(result, expected)
+
+    def test_run_asn_google_lookup(self):
+        self.maxDiff = None
+
+        expected = {
+            "geoip": {
+                "8.8.8.8": {
+                    'as_num': {'name': "AS Number",
+                               'value': 12345
+                    },
+                    'as_org': {'name': "AS Org",
+                               'value': "Google"
+                    },
+                    'city': {'name': "City",
+                             'value': "London"
+                    },
+                    'country': {'name': "Country",
+                                'value': "UK"
+                    },
+                    'lat': {'name': "Lat",
+                            'value': 1.0
+                    },
+                    'lon': {'name': "Lon",
+                            'value': 1.0
+                    },
+                    'link': {'name': "Google Map",
+                             'value': 'https://maps.google.com/maps/place//@1.0,1.0,10z'  # NOQA
+                    }
+                },
+                "8.8.4.4": {
+                    'as_num': {'name': "AS Number",
+                               'value': 12345
+                    },
+                    'as_org': {'name': "AS Org",
+                               'value': "Google"
+                    },
+                    'city': {'name': "City",
+                             'value': "London"
+                    },
+                    'country': {'name': "Country",
+                                'value': "UK"
+                    },
+                    'lat': {'name': "Lat",
+                            'value': 1.0
+                    },
+                    'lon': {'name': "Lon",
+                            'value': 1.0
+                    },
+                    'link': {'name': "Google Map",
+                             'value': 'https://maps.google.com/maps/place//@1.0,1.0,10z'  # NOQA
+                    }
+                }
+            }
+        }
+        action = self.get_action_instance(self.full_config)
+        action._get_databases = MagicMock(return_value=[None,
+                                                        FakeASNReader(),
                                                         FakeCityReader()])
 
         (status, result) = action.run(ip_addresses=["8.8.8.8", "8.8.4.4"])
