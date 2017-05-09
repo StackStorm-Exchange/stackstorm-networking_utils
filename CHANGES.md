@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.3
-- Use the GeoIP Lite ASN DB by default.
+- Add support for the GeoIP Lite ASN DB.
 - Require geoip2 >= 2.5.0 for GeoIP Lite ASN support.
 
 ## 0.2
