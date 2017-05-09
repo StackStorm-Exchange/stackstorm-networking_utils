@@ -104,7 +104,7 @@ class GeoIpAction(Action):
                     response = reader_asn.asn(ip_address)
 
                     details['as_num'] = {'name': "AS Number",
-                                         'value': response.autonomous_system_number} # NOQA
+                                         'value': response.autonomous_system_number}  # NOQA
                     details['as_org'] = {'name': "AS Org",
                                          'value': response.autonomous_system_organization}  # NOQA
 
