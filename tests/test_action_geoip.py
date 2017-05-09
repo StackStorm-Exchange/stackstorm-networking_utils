@@ -62,7 +62,7 @@ class FakeISPReader(object):
 
 
 class FakeASNReader(object):
-    def isp(self, ip_address):
+    def asn(self, ip_address):
         return FakeASN()
 
     def close(self):
