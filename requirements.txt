@@ -1,2 +1,2 @@
 ipaddress>=1.0.16
-geoip2
+geoip2>=2.5.0
