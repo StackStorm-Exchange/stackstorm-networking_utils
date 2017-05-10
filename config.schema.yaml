@@ -3,6 +3,11 @@ isp_db:
   type: "string"
   required: true
   default: "/opt/geoip2/GeoIP2-ISP.mmdb"
+asn_db:
+  description: "Path to GeoLite2-ASN database"
+  type: "string"
+  required: true
+  default: "/opt/geoip2/GeoLite2-ASN.mmdb"
 city_db:
   description: "Path to City GeoIP2 database"
   type: "string"

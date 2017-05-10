@@ -31,11 +31,16 @@ class GeoIpAction(Action):
             reader_isp = None
 
         try:
+            reader_asn = geoip2.database.Reader(self.config['asn_db'])
+        except IOError:
+            reader_asn = None
+
+        try:
             reader_city = geoip2.database.Reader(self.config['city_db'])
         except IOError:
             reader_city = None
 
-        return (reader_isp, reader_city)
+        return (reader_isp, reader_asn, reader_city)
 
     def run(self, ip_addresses):
         """
@@ -55,9 +60,9 @@ class GeoIpAction(Action):
         results = {"geoip": {}}
         status = False
 
-        (reader_isp, reader_city) = self._get_databases()
+        (reader_isp, reader_asn, reader_city) = self._get_databases()
 
-        if reader_city is None and reader_isp is None:
+        if reader_city is None and reader_isp is None and reader_asn is None:
             results['error'] = "No GeoIP2 databases"
             return (status, results)
         else:
@@ -95,6 +100,13 @@ class GeoIpAction(Action):
                                       'value': response.isp}
                     details['org'] = {'name': "Org",
                                       'value': response.organization}
+                elif reader_asn:
+                    response = reader_asn.asn(ip_address)
+
+                    details['as_num'] = {'name': "AS Number",
+                                         'value': response.autonomous_system_number}  # NOQA
+                    details['as_org'] = {'name': "AS Org",
+                                         'value': response.autonomous_system_organization}  # NOQA
 
                 if reader_city:
                     response = reader_city.city(ip_address)
