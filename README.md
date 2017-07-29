@@ -12,6 +12,7 @@ databases in a different location from the default.
 ---
 isp_db: "/path/to/GeoIP2-ISP.mmdb"
 city_db: "/path/to/GeoLite2-City.mmdb"
+asn_db: "/path/to/GeoLite2-ASN.mmdb"
 ```
 
 # Actions.
