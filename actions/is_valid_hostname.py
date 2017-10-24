@@ -44,10 +44,19 @@ class IsValidHostnameAction(Action):
         else:
             results["final_dot"] = False
 
+        if hostname.count('.') > 0:
+            results["fqdn"] = True
+        else:
+            results["fqdn"] = False
+
+        labels = hostname.split('.')
+
         if len(hostname) > 253:
-            raise ValueError("Hostanme is longer than 253 chars.")
-        elif invalid_chars.search(hostname):
-            raise ValueError("Hostanme has invalid chars.")
+            raise ValueError("Hostname is longer than 253 chars.")
+        elif all(invalid_chars.search(label) for label in labels):
+            raise ValueError("Hostname has invalid chars.")
+        elif all(len(label) > 63 for label in labels):
+            raise ValueError("Label over 63 chars.")
         else:
             results['valid'] = True
 

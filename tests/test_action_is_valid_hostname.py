@@ -26,7 +26,10 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
     action_cls = IsValidHostnameAction
 
     def test_run_valid_hostname(self):
-        expected = {"final_dot": False, 'valid': True}
+        expected = {"final_dot": False,
+                    "fqdn": False,
+                    'hostname': "foo",
+                    'valid': True}
 
         action = self.get_action_instance()
         results = action.run("foo")
@@ -34,7 +37,10 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(results, expected)
 
     def test_run_valid_fqdn_final(self):
-        expected = {"final_dot": False, 'valid': True}
+        expected = {"final_dot": False,
+                    "fqdn": True,
+                    'hostname': "foo.example.org",
+                    'valid': True}
 
         action = self.get_action_instance()
         results = action.run("foo.example.org")
