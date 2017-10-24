@@ -61,7 +61,7 @@ class IsValidHostnameAction(Action):
             raise ValueError("Label starts with a '-'")
         elif any(label.endswith("-") for label in labels):
             raise ValueError("Label ends with a '-'")
-        elif labels[-1].match(r"[0-9]+$"):
+        elif re.match(r"[0-9]+$", labels[-1]):
             raise ValueError("All numberic TLD!")
         else:
             results['valid'] = True
