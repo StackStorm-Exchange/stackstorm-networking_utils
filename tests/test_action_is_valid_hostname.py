@@ -48,7 +48,10 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(results, expected)
 
     def test_run_valid_fqdn_final_dot(self):
-        expected = {"final_dot": True, 'valid': True}
+        expected = {"final_dot": True,
+                    "fqdn": True,
+                    'hostname': "foo.example.org.",
+                    'valid': True}
 
         action = self.get_action_instance()
         results = action.run("foo.example.org.")
@@ -77,4 +80,22 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
         action = self.get_action_instance()
         self.assertRaises(ValueError,
                           action.run,
-                          "foo" + "a" * 64 + ".com.")
+                          "foo." + "a" * 64 + ".com.")
+
+    def test_run_invalid_hostname_label_startswith_dash(self):
+        action = self.get_action_instance()
+        self.assertRaises(ValueError,
+                          action.run,
+                          "foo.-sub.example.com")
+
+    def test_run_invalid_hostname_label_endswith_dash(self):
+        action = self.get_action_instance()
+        self.assertRaises(ValueError,
+                          action.run,
+                          "foo.sub-.example.com")
+
+    def test_run_invalid_hostname_numeric_tld(self):
+        action = self.get_action_instance()
+        self.assertRaises(ValueError,
+                          action.run,
+                          "foo.sub-.example.123")

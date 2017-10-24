@@ -36,7 +36,7 @@ class IsValidHostnameAction(Action):
         results = {
             "hostname": hostname
         }
-        invalid_chars = re.compile("[^A-Z\d-]", re.IGNORECASE)
+        invalid_chars = re.compile("[^a-z0-9-]", re.IGNORECASE)
 
         if hostname.endswith('.'):
             hostname.strip('.')
@@ -53,10 +53,16 @@ class IsValidHostnameAction(Action):
 
         if len(hostname) > 253:
             raise ValueError("Hostname is longer than 253 chars.")
-        elif all(invalid_chars.search(label) for label in labels):
+        elif any(invalid_chars.search(label) for label in labels):
             raise ValueError("Hostname has invalid chars.")
-        elif all(len(label) > 63 for label in labels):
+        elif any(len(label) > 63 for label in labels):
             raise ValueError("Label over 63 chars.")
+        elif any(label.startswith(-) for label in labels):
+            raise ValueError("Label starts with a '-'")
+        elif any(label.endswith(-) for label in labels):
+            raise ValueError("Label ends with a '-'")
+        elif labels[-1].match(r"[0-9]+$"):
+            raise ValueError("All numberic TLD!")
         else:
             results['valid'] = True
 
