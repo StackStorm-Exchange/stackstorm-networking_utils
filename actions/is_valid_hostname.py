@@ -47,7 +47,7 @@ class IsValidHostnameAction(Action):
         if len(hostname) > 253:
             raise ValueError("Hostanme is longer than 253 chars.")
         elif invalid_chars.search(hostname):
-             raise ValueError("Hostanme has invalid chars."
+            raise ValueError("Hostanme has invalid chars.")
         else:
             results['valid'] = True
 
