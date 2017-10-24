@@ -14,7 +14,7 @@
 
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
-from is_valid_hostname import IsValidHostname
+from is_valid_hostname import IsValidHostnameAction
 
 __all__ = [
     'IsValidHostnameActionTestCase'
@@ -23,7 +23,7 @@ __all__ = [
 
 class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
     __test__ = True
-    action_cls = IsValidHostname
+    action_cls = IsValidHostnameAction
 
     def test_run_valid_hostname(self):
         expected = {"final_dot": False, 'valid': True}
