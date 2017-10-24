@@ -58,3 +58,8 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
         action = self.get_action_instance()
         self.assertRaises(ValueError,
                           "a" * 300 + ".")
+
+    def test_run_invalid_hostname_with_dollar(self):
+        action = self.get_action_instance()
+        self.assertRaises(ValueError,
+                          "foobar$")
