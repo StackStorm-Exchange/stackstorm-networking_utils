@@ -58,19 +58,23 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
     def test_run_invalid_hostname_too_long_255(self):
         action = self.get_action_instance()
         self.assertRaises(ValueError,
-                          action.run("a" * 255 + "."))
+                          action.run,
+                          "a" * 255 + ".")
 
     def test_run_invalid_hostname_too_long_300(self):
         action = self.get_action_instance()
         self.assertRaises(ValueError,
-                          action.run("a" * 300 + "."))
+                          action.run,
+                          "a" * 300 + ".")
 
     def test_run_invalid_hostname_with_dollar(self):
         action = self.get_action_instance()
         self.assertRaises(ValueError,
-                          action.run("foobar$"))
+                          action.run,
+                          "foobar$")
 
     def test_run_invalid_hostname_with_long_label(self):
         action = self.get_action_instance()
         self.assertRaises(ValueError,
-                          action.run("foo" + "a" * 64 + ".com."))
+                          action.run,
+                          "foo" + "a" * 64 + ".com.")
