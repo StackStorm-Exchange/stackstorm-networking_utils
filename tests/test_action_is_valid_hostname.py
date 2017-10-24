@@ -24,3 +24,37 @@ __all__ = [
 class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
     __test__ = True
     action_cls = IsValidHostname
+
+    def test_run_valid_hostname(self):
+        expected = {"final_dot": False, 'valid': True}
+
+        action = self.get_action_instance()
+        results = action.run("foo")
+
+        self.assertEqual(results, expected)
+
+    def test_run_valid_fqdn_final(self):
+        expected = {"final_dot": False, 'valid': True}
+
+        action = self.get_action_instance()
+        results = action.run("foo.example.org")
+
+        self.assertEqual(results, expected)
+
+    def test_run_valid_fqdn_final_dot(self):
+        expected = {"final_dot": True, 'valid': True}
+
+        action = self.get_action_instance()
+        results = action.run("foo.example.org.")
+
+        self.assertEqual(results, expected)
+
+    def test_run_invalid_hostname_too_long_255(self):
+        action = self.get_action_instance()
+        self.assertRaises(ValueError,
+                          "a" * 255 + ".")
+
+    def test_run_invalid_hostname_too_long_300(self):
+        action = self.get_action_instance()
+        self.assertRaises(ValueError,
+                          "a" * 300 + ".")
