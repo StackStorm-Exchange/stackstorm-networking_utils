@@ -57,9 +57,9 @@ class IsValidHostnameAction(Action):
             raise ValueError("Hostname has invalid chars.")
         elif any(len(label) > 63 for label in labels):
             raise ValueError("Label over 63 chars.")
-        elif any(label.startswith(-) for label in labels):
+        elif any(label.startswith("-") for label in labels):
             raise ValueError("Label starts with a '-'")
-        elif any(label.endswith(-) for label in labels):
+        elif any(label.endswith("-") for label in labels):
             raise ValueError("Label ends with a '-'")
         elif labels[-1].match(r"[0-9]+$"):
             raise ValueError("All numberic TLD!")
