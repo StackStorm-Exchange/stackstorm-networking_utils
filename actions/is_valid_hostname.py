@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import ipaddress
+import re
 
 from st2actions.runners.pythonrunner import Action
 
@@ -36,6 +36,7 @@ class IsValidHostnameAction(Action):
         results = {
             "hostname": hostname
         }
+        invalid_chars = re.compile("[^A-Z\d-]", re.IGNORECASE)
 
         if hostname.endswith('.'):
             hostname.strip('.')
