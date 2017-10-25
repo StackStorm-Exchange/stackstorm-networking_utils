@@ -1,4 +1,7 @@
-# Changelog
+xc# Changelog
+
+## 0.4.0
+- Added `is_valid_hostname` action.
 
 ## 0.3.1
 - Added example configuration file
