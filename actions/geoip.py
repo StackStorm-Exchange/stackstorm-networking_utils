@@ -146,5 +146,5 @@ class GeoIpAction(Action):
 
             if reader_asn:
                 reader_asn.close()
-                
+
         return (status, results)
