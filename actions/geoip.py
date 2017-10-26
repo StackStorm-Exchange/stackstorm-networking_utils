@@ -92,10 +92,12 @@ class GeoIpAction(Action):
                 if reader_isp:
                     response = reader_isp.isp(ip_address)
 
-                    details['as_num'] = {'name': "AS Number",
-                                         'value': response.autonomous_system_number}  # NOQA
-                    details['as_org'] = {'name': "AS Org",
-                                         'value': response.autonomous_system_organization}  # NOQA
+                    details['as_num'] = {
+                        'name': "AS Number",
+                        'value': response.autonomous_system_number}
+                    details['as_org'] = {
+                        'name': "AS Org",
+                        'value': response.autonomous_system_organization}
                     details['isp'] = {'name': "ISP",
                                       'value': response.isp}
                     details['org'] = {'name': "Org",
@@ -103,10 +105,12 @@ class GeoIpAction(Action):
                 elif reader_asn:
                     response = reader_asn.asn(ip_address)
 
-                    details['as_num'] = {'name': "AS Number",
-                                         'value': response.autonomous_system_number}  # NOQA
-                    details['as_org'] = {'name': "AS Org",
-                                         'value': response.autonomous_system_organization}  # NOQA
+                    details['as_num'] = {
+                        'name': "AS Number",
+                        'value': response.autonomous_system_number}
+                    details['as_org'] = {
+                        'name': "AS Org",
+                        'value': response.autonomous_system_organization}
 
                 if reader_city:
                     response = reader_city.city(ip_address)
@@ -121,12 +125,13 @@ class GeoIpAction(Action):
                                       'value': response.location.longitude}  # NOQA pylint: disable=no-member
 
                     url = "maps.google.com"
-                    details['link'] = {'name': "Google Map",
-                                       'value': "https://{url}/maps/place//@{lat},{lon},{z}z".format(  # NOQA
-                                           url=url,
-                                           z=10,
-                                           lat=details['lat']['value'],
-                                           lon=details['lon']['value'])}
+                    details['link'] = {
+                        'name': "Google Map",
+                        'value': "https://{url}/maps/place//@{lat},{lon},{z}z".format(
+                            url=url,
+                            z=10,
+                            lat=details['lat']['value'],
+                            lon=details['lon']['value'])}
 
                 results['geoip'][ip_address] = details
         except:
@@ -138,5 +143,8 @@ class GeoIpAction(Action):
 
             if reader_isp:
                 reader_isp.close()
+
+            if reader_asn:
+                reader_asn.close()
 
         return (status, results)
