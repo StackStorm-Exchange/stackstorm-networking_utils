@@ -16,7 +16,7 @@
 import ipaddress
 import geoip2.database
 
-from st2actions.runners.pythonrunner import Action
+from st2common.runners.base_action import Action
 
 
 class GeoIpAction(Action):
