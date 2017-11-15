@@ -1,0 +1,54 @@
+---
+description: "Run tcpdump against an interface and collect pcap data."
+enabled: true
+name: "tcpdump_pcap_write"
+pack: "networking_utils"
+
+parameters:
+  interface:
+    type: "string"
+    description: "Interface identifier"
+    required: true
+
+  snaplen:
+    type: "number"
+    description: "Snaplength."
+    default: 0
+    required: false
+  
+  file:
+    type: "string"
+    description: "Path to capture file."
+    required: true
+  
+  mode:
+    description: "Capture mode - write to file or read from file"
+    type: "string"
+    enum:
+      - w
+      - r
+    default: "w"
+
+  time:
+    description: "Time for which tcpdump capture should be run"
+    type: "number"
+    required: false
+    default: 120  # seconds
+  
+  timeout:
+    default: 1000
+
+  tcpdump_opts:
+    description: "Specify other tcpdump options as you specify on a shell."
+    type: "string"
+    required: false
+    default: "-G {{ time }} -W 1 -C 1"
+
+  sudo:
+    default: true
+    immutable: true
+
+  cmd:
+    default: 'sudo tcpdump -i {{ interface }} -s {{ snaplen }} -{{ mode }} {{ file }} {{ tcpdump_opts }}'
+
+runner_type: "remote-shell-cmd"
