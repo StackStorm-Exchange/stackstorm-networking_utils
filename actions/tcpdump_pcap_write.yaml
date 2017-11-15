@@ -49,6 +49,6 @@ parameters:
     immutable: true
 
   cmd:
-    default: 'sudo tcpdump -i {{ interface }} -s {{ snaplen }} -{{ mode }} {{ file }} {{ tcpdump_opts }}'
+    default: 'sudo timeout {{ time }} tcpdump -i {{ interface }} -s {{ snaplen }} -{{ mode }} {{ file }} {{ tcpdump_opts }} || exit 0'
 
 runner_type: "remote-shell-cmd"
