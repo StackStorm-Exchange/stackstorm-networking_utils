@@ -42,7 +42,7 @@ parameters:
     description: "Specify other tcpdump options as you specify on a shell."
     type: "string"
     required: false
-    default: "-G {{ time }} -W 1 -C 1"
+    default: "-G {{ time }} -W 1 -C 1 -l -nn"
 
   sudo:
     default: true
