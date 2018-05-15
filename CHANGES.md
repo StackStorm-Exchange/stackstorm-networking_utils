@@ -1,4 +1,7 @@
-xc# Changelog
+# Changelog
+
+## 0.4.2
+- Minor linting
 
 ## 0.4.0
 - Added `is_valid_hostname` action.

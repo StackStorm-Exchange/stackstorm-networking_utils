@@ -134,7 +134,7 @@ class GeoIpAction(Action):
                             lon=details['lon']['value'])}
 
                 results['geoip'][ip_address] = details
-        except:
+        except Exception:
             self.logger.error("Something went really wrong!")
             raise
         finally:
