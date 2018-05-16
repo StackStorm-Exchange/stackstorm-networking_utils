@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.3
+- Update authors email address.
+
 ## 0.4.2
 - Minor linting
 
