@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.4
+- Added `ping` action.
+
 ## 0.4.3
 - Update authors email address.
 

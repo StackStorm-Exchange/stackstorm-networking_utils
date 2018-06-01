@@ -1,0 +1,19 @@
+---
+name: "ping"
+pack: "networking_utils"
+description: "Ping an IP address / Hostname"
+action_ref: "networking_utils.ping"
+formats:
+    - "ping {{ host }} count {{ count }}"
+    - "ping {{ host }}"
+result:
+  format: |
+    Here's the results of your ping:
+    status: {{ execution.status }}
+    output:
+    -------------------------------
+    {% if execution.status == 'succeeded' %}
+    {{ execution.result.stdout }}
+    {% else %}
+    {{ execution.result.stderr }}
+    {% endif %}

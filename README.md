@@ -11,6 +11,7 @@ validation and flow control.
 - *is_valid_ipv6*: Check if an valid IPv6 address (with options to exclude loopback).
 - *is_valid_ip_port*: Check if an valid IP port (i.e. between 0 and 65535).
 - *geoip*: Report geoip infomation from MaxMind database(s).
+- *ping*: Pings an IP address / Hostname.
 
 ## GeoIP
 

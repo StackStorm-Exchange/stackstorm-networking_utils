@@ -1,0 +1,23 @@
+---
+description: "Pings a host for a given IP Address / Hostname"
+enabled: true
+name: ping
+pack: networking_utils
+parameters:
+  host:
+    type: string
+    description: "IP Address / Hostname to ping"
+    required: true
+  count:
+    type: integer
+    description: >
+      Number of pings to attempt. Note: you may need to increase the 'timeout'
+      parameter
+    default: 5
+  cmd:
+    type: string
+    immutable: true
+    # Slack/ChatOps converts hostname.domain.tld into a URL: http://hostname.domain.tld
+    # we need to reverse this and convert the URL back into a FQDN
+    default: "ping -c {{ count }} {{ host | regex_replace('[A-z]+://', '') }}"
+runner_type: "local-shell-cmd"
