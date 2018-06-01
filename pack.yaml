@@ -8,6 +8,7 @@ keywords:
     - ipv4
     - ipv6
     - geoip
-version: 0.4.3
+    - ping
+version: 0.4.4
 author: Jon Middleton
 email: jjm@geeky-and-blonde.me.uk

@@ -1,3 +1,4 @@
 # CONTRIBUTORS
 
-Jon Middleton <jon.middleton@pulsant.com>
+* Jon Middleton <jon.middleton@pulsant.com>
+* Encore Technologies <code@encore.tech>
