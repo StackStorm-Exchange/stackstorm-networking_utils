@@ -12,8 +12,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 
-from mock import MagicMock
-
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from ping import Ping
