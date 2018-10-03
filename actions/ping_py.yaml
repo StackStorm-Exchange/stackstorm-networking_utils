@@ -2,7 +2,7 @@
 description: "Carry out a ping against a host and return the output as a JSON object."
 enabled: true
 entry_point: 'ping.py'
-name: "ping"
+name: "ping_py"
 pack: "networking_utils"
 
 parameters:
