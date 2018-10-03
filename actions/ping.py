@@ -17,6 +17,7 @@ import subprocess
 
 from st2common.runners.base_action import Action
 
+
 class Ping(Action):
     def run(self, host, force_success=False, count=5):
         """
@@ -46,4 +47,4 @@ class Ping(Action):
         else:
             success = results['up']
 
-        return (success, results)
+        return success, results
