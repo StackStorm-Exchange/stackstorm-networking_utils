@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.5
+- Added `ping_py` action (using Python and option to force success).
+- Update Jon Middleton's email in `CONTRIBUTORS.md`.
+
 ## 0.4.4
 - Added `ping` action.
 
