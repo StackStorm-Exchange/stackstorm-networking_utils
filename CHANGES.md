@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.6
+- Version bump to fix tagging issues
+
 ## 0.4.5
 - Added `ping_py` action (using Python and option to force success).
 - Update Jon Middleton's email in `CONTRIBUTORS.md`.
