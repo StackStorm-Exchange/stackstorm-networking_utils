@@ -35,7 +35,7 @@ class Ping(Action):
             ping = subprocess.check_output(
                 ["ping", "-c", str(count), host]
             )
-        except subprocess.CalledProcessError, e:
+        except subprocess.CalledProcessError as e:
             results['up'] = False
             results['output'] = e.output
         else:

@@ -76,7 +76,7 @@ class GeoIpAction(Action):
                 # ip address is a string and not unicode.
                 try:
                     ip_obj = ipaddress.ip_address(unicode(ip_address))
-                except ValueError, e:
+                except ValueError as e:
                     results['geoip'][ip_address] = {
                         'error': {'name': "Error",
                                   'value': "Invalid IP: {}".format(e)}
