@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import six
 import ipaddress
 
 from st2common.runners.base_action import Action
@@ -39,7 +40,7 @@ class IsValidIpAction(Action):
 
         # As ipaddress is a backport from Python 3.3+ it errors if the
         # ip address is a string and not unicode.
-        ip_obj = ipaddress.ip_address(unicode(ip_address))
+        ip_obj = ipaddress.ip_address(six.text_type(ip_address))
 
         results = {'version': ip_obj.version,
                    'is_private': ip_obj.is_private,

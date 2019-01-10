@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import six
 import ipaddress
 import geoip2.database
 
@@ -75,7 +76,7 @@ class GeoIpAction(Action):
                 # As ipaddress is a backport from Python 3.3+ it errors if the
                 # ip address is a string and not unicode.
                 try:
-                    ip_obj = ipaddress.ip_address(unicode(ip_address))
+                    ip_obj = ipaddress.ip_address(six.text_type(ip_address))
                 except ValueError as e:
                     results['geoip'][ip_address] = {
                         'error': {'name': "Error",
