@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 
+import six
 from mock import MagicMock
 
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
@@ -122,16 +123,29 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     def test_run_invalid_ip(self):
         self.maxDiff = None
 
-        expected = {
-            "geoip": {
-                "Not_an_IP": {
-                    "error": {
-                        "name": "Error",
-                        "value": "Invalid IP: u'Not_an_IP' does not appear to be an IPv4 or IPv6 address"  # NOQA
+        if six.PY2:
+            expected = {
+                "geoip": {
+                    "Not_an_IP": {
+                        "error": {
+                            "name": "Error",
+                            "value": "Invalid IP: u'Not_an_IP' does not appear to be an IPv4 or IPv6 address"  # NOQA
+                        }
                     }
                 }
             }
-        }
+        else:
+            expected = {
+                "geoip": {
+                    "Not_an_IP": {
+                        "error": {
+                            "name": "Error",
+                            "value": "Invalid IP: 'Not_an_IP' does not appear to be an IPv4 or IPv6 address"  # NOQA
+                        }
+                    }
+                }
+            }
+
         action = self.get_action_instance(self.full_config)
         action._get_databases = MagicMock(return_value=[FakeISPReader(),
                                                         FakeASNReader(),
