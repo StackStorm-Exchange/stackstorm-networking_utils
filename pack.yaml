@@ -10,5 +10,8 @@ keywords:
     - geoip
     - ping
 version: 0.4.6
+python_versions:
+    - "2"
+    - "3"
 author: Jon Middleton
 email: jjm@geeky-and-blonde.me.uk
