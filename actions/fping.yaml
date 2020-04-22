@@ -1,0 +1,39 @@
+---
+description: "Runs a ping using fping command"
+enabled: true
+entry_point: 'fping.py'
+name: "fping"
+pack: "networking_utils"
+
+parameters:
+  host:
+    type: string
+    description: "Host to ping"
+    position: 0
+    required: true
+
+  family:
+    type: string
+    description: "Protocol family to use for the fping"
+    position: 1
+    default: any
+    required: true
+    enum:
+      - any
+      - ipv4
+      - ipv6
+
+  interval:
+    type: integer
+    description: "Interval between ICMP requests in seconds"
+    position: 2
+    default: 1
+    required: true
+
+  count:
+    type: integer
+    description: "How many ICMP requests should be sent"
+    position: 3
+    default: 10
+    required: true
+runner_type: "python-script"

@@ -1,0 +1,30 @@
+---
+description: "Check if the IP/network is in the network"
+enabled: true
+entry_point: 'contains.py'
+name: "contains"
+pack: "networking_utils"
+
+parameters:
+  item:
+    type: string
+    description: "Contained item"
+    position: 0
+    required: true
+
+  item_type:
+    type: string
+    description: "Type of the contained item"
+    position: 1
+    default: address
+    required: true
+    enum:
+      - address
+      - network
+
+  container:
+    type: string
+    description: "Network"
+    position: 2
+    required: true
+runner_type: "python-script"

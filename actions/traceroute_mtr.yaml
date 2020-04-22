@@ -1,0 +1,79 @@
+---
+description: "Runs a traceroute using mtr command"
+enabled: true
+entry_point: 'traceroute_mtr.py'
+name: "traceroute_mtr"
+pack: "networking_utils"
+
+parameters:
+  host:
+    type: string
+    description: "Host to trace the route to"
+    position: 0
+    required: true
+
+  family:
+    type: string
+    description: "Protocol family to use for the traceroute"
+    position: 1
+    default: any
+    required: true
+    enum:
+      - any
+      - ipv4
+      - ipv6
+
+  traceroute_type:
+    type: string
+    description: "Type of traceroute to do"
+    position: 2
+    default: icmp
+    required: true
+    enum:
+      - icmp
+      - udp
+      - tcp
+
+  port:
+    type: integer
+    description: "Port to use for TCP/UDP traceroute"
+    position: 3
+    required: false
+
+  dns:
+    type: boolean
+    description: "Should reverse DNS be resolved"
+    position: 4
+    default: true
+    required: true
+
+  show_ips:
+    type: boolean
+    description: "Get both IPs and reverse DNS"
+    position: 5
+    default: false
+    required: true
+
+  asn:
+    type: boolean
+    description: "Should AS numbers be resolved"
+    position: 6
+    default: false
+    required: true
+
+  max_ttl:
+    type: integer
+    description: "Max TTL"
+    position: 7
+    default: 30
+    required: true
+
+
+  interval:
+    type: integer
+    description: "Interval between ICMP requests in seconds"
+    position: 8
+    default: 1
+    required: true
+
+runner_type: "python-script"
