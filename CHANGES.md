@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+- Added `contains` action
+- Added `fping` action
+- Added `resolve` action
+- Added `traceroute_mtr` action
+
 ## 0.4.6
 - Version bump to fix tagging issues
 

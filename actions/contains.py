@@ -40,4 +40,4 @@ class Contains(Action):
                 container_obj.broadcast_address >= obj.broadcast_address
             )
         else:
-            raise TypeError("Unknown item type")
+            raise TypeError("Unknown item type: {}".format(item_type))
