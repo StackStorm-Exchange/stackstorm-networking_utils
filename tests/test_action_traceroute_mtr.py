@@ -14,32 +14,47 @@
 
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 from mock import patch
-from ping import Ping
+from traceroute_mtr import TracerouteMTR
 
-__all__ = ["PingActionTestCase"]
+__all__ = ["TracerouteMTRTestCase"]
 
 
-class PingActionTestCase(NetworkingUtilsBaseActionTestCase):
+class TracerouteMTRTestCase(NetworkingUtilsBaseActionTestCase):
     __test__ = True
-    action_cls = Ping
+    action_cls = TracerouteMTR
 
     @patch("subprocess.check_output")
-    def test_run_ping_google_dns(self, mock):
+    def test_traceroute_mtr_localhost(self, mock):
         action = self.get_action_instance()
 
-        mock.return_values = b"""
-        ping 8.8.8.8 -c 5
-PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=63 time=36.6 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=63 time=22.4 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=63 time=23.1 ms
-64 bytes from 8.8.8.8: icmp_seq=4 ttl=63 time=22.0 ms
-64 bytes from 8.8.8.8: icmp_seq=5 ttl=63 time=21.4 ms
+        mock.return_value = b"""
+    {
+    "report": {
+      "mtr": {
+        "src": "test",
+        "dst": "127.0.0.1",
+        "tos": "0x0",
+        "psize": "64",
+        "bitpattern": "0x00",
+        "tests": "10"
+      },
+      "hubs": [
+        {
+          "count": "1",
+          "host": "localhost",
+          "Loss%": 0,
+          "Snt": 10,
+          "Last": 0.07,
+          "Avg": 0.07,
+          "Best": 0.07,
+          "Wrst": 0.1,
+          "StDev": 0.01
+        }
+      ]
+    }
+  }
+    """
 
---- 8.8.8.8 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 4005ms
-rtt min/avg/max/mdev = 21.404/25.136/36.668/5.794 ms"""
+        result = action.run("127.0.0.1")
 
-        (success, result) = action.run("8.8.8.8", force_success=True)
-
-        self.assertTrue(success)
+        self.assertTrue(len(result["report"]["hubs"]) > 0)

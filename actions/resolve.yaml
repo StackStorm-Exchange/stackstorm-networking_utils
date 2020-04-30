@@ -1,0 +1,21 @@
+---
+description: "Resolve a DNS or reverse DNS"
+enabled: true
+entry_point: 'resolve.py'
+name: "resolve"
+pack: "networking_utils"
+
+parameters:
+  request:
+    type: string
+    description: "DNS or IP to resolve"
+    position: 0
+    required: true
+
+  reverse:
+    type: boolean
+    description: "Revolve a reverse DNS"
+    position: 1
+    default: false
+    required: true
+runner_type: "python-script"

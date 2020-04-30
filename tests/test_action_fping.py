@@ -13,33 +13,26 @@
 # See the License for the specific language governing permissions and
 
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
+
+from fping import FPing
 from mock import patch
-from ping import Ping
 
-__all__ = ["PingActionTestCase"]
+__all__ = ["FPingTestCase"]
 
 
-class PingActionTestCase(NetworkingUtilsBaseActionTestCase):
+class FPingTestCase(NetworkingUtilsBaseActionTestCase):
     __test__ = True
-    action_cls = Ping
+    action_cls = FPing
 
     @patch("subprocess.check_output")
-    def test_run_ping_google_dns(self, mock):
+    def test_fping_localhost(self, mock):
         action = self.get_action_instance()
 
-        mock.return_values = b"""
-        ping 8.8.8.8 -c 5
-PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=63 time=36.6 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=63 time=22.4 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=63 time=23.1 ms
-64 bytes from 8.8.8.8: icmp_seq=4 ttl=63 time=22.0 ms
-64 bytes from 8.8.8.8: icmp_seq=5 ttl=63 time=21.4 ms
+        mock.return_value = (
+            b"8.8.8.8 : xmt/rcv/%loss = 10/10/0%, min/avg/max = 4.78/4.85/4.91\n"
+        )
+        result = action.run("127.0.0.1", interval=1, count=3)
 
---- 8.8.8.8 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 4005ms
-rtt min/avg/max/mdev = 21.404/25.136/36.668/5.794 ms"""
-
-        (success, result) = action.run("8.8.8.8", force_success=True)
-
-        self.assertTrue(success)
+        self.assertTrue(
+            result["packets"]["transmitted"] == result["packets"]["received"]
+        )

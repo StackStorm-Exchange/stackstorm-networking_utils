@@ -13,33 +13,24 @@
 # See the License for the specific language governing permissions and
 
 from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
-from mock import patch
-from ping import Ping
 
-__all__ = ["PingActionTestCase"]
+from contains import Contains
+
+__all__ = ["ContainsTestCase"]
 
 
-class PingActionTestCase(NetworkingUtilsBaseActionTestCase):
+class ContainsTestCase(NetworkingUtilsBaseActionTestCase):
     __test__ = True
-    action_cls = Ping
+    action_cls = Contains
 
-    @patch("subprocess.check_output")
-    def test_run_ping_google_dns(self, mock):
+    def test_contains_ip_in_network(self):
         action = self.get_action_instance()
 
-        mock.return_values = b"""
-        ping 8.8.8.8 -c 5
-PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=63 time=36.6 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=63 time=22.4 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=63 time=23.1 ms
-64 bytes from 8.8.8.8: icmp_seq=4 ttl=63 time=22.0 ms
-64 bytes from 8.8.8.8: icmp_seq=5 ttl=63 time=21.4 ms
+        self.assertTrue(action.run("10.0.0.1", "10.0.0.0/24", item_type="address"))
+        self.assertFalse(action.run("10.0.0.1", "10.0.1.0/24", item_type="address"))
 
---- 8.8.8.8 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 4005ms
-rtt min/avg/max/mdev = 21.404/25.136/36.668/5.794 ms"""
+    def test_contains_network_in_network(self):
+        action = self.get_action_instance()
 
-        (success, result) = action.run("8.8.8.8", force_success=True)
-
-        self.assertTrue(success)
+        self.assertTrue(action.run("10.0.0.0/24", "10.0.0.0/16", item_type="network"))
+        self.assertFalse(action.run("10.0.0.0/24", "10.0.2.0/24", item_type="network"))
