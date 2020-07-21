@@ -33,6 +33,4 @@ class FPingTestCase(NetworkingUtilsBaseActionTestCase):
         )
         result = action.run("127.0.0.1", interval=1, count=3)
 
-        self.assertTrue(
-            result["packets"]["transmitted"] == result["packets"]["received"]
-        )
+        self.assertEquals(result["packets"]["transmitted"], result["packets"]["received"])

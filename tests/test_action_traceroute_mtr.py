@@ -57,4 +57,4 @@ class TracerouteMTRTestCase(NetworkingUtilsBaseActionTestCase):
 
         result = action.run("127.0.0.1")
 
-        self.assertTrue(len(result["report"]["hubs"]) > 0)
+        self.assertGreater(len(result["report"]["hubs"]), 0)

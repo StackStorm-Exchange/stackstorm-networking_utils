@@ -28,5 +28,5 @@ class ResolveTestCase(NetworkingUtilsBaseActionTestCase):
     def test_resolve_localhost(self):
         action = self.get_action_instance()
 
-        self.assertTrue("localhost" in action.run("127.0.0.1", reverse=True))
-        self.assertTrue("127.0.0.1" in action.run("localhost"))
+        self.assertIn("localhost", action.run("127.0.0.1", reverse=True))
+        self.assertIn("127.0.0.1", action.run("localhost"))
