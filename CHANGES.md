@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+- Minor fixups and improvements
+- Pin geoip2 and maxminddb versions to ensure Python 2.7 compatibility
+- Update `resolve` action to use `getaddrinfo` instead of `gethostbyname_ex`
+
 ## 0.5.0
 - Added `contains` action
 - Added `fping` action
