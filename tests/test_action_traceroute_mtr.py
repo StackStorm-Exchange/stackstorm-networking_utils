@@ -28,33 +28,33 @@ class TracerouteMTRTestCase(NetworkingUtilsBaseActionTestCase):
         action = self.get_action_instance()
 
         mock.return_value = b"""
-    {
-    "report": {
-      "mtr": {
-        "src": "test",
-        "dst": "127.0.0.1",
-        "tos": "0x0",
-        "psize": "64",
-        "bitpattern": "0x00",
-        "tests": "10"
-      },
-      "hubs": [
-        {
-          "count": "1",
-          "host": "localhost",
-          "Loss%": 0,
-          "Snt": 10,
-          "Last": 0.07,
-          "Avg": 0.07,
-          "Best": 0.07,
-          "Wrst": 0.1,
-          "StDev": 0.01
-        }
-      ]
-    }
+{
+  "report": {
+    "mtr": {
+      "src": "test",
+      "dst": "127.0.0.1",
+      "tos": "0x0",
+      "psize": "64",
+      "bitpattern": "0x00",
+      "tests": "10"
+    },
+    "hubs": [
+      {
+        "count": "1",
+        "host": "localhost",
+        "Loss%": 0,
+        "Snt": 10,
+        "Last": 0.07,
+        "Avg": 0.07,
+        "Best": 0.07,
+        "Wrst": 0.1,
+        "StDev": 0.01
+      }
+    ]
   }
+}
     """
 
         result = action.run("127.0.0.1")
 
-        self.assertTrue(len(result["report"]["hubs"]) > 0)
+        self.assertGreater(len(result["report"]["hubs"]), 0)

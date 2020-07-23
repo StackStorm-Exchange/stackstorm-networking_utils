@@ -29,7 +29,10 @@ class Resolve(Action):
         if reverse:
             response = [socket.gethostbyaddr(request)[0]]
         else:
-            response = socket.gethostbyname_ex(request)[2]
+            response = [
+                record[4][0]
+                for record in socket.getaddrinfo(request, None, socket.AF_INET, socket.SOCK_DGRAM)
+            ]
 
         self.logger.debug("Resolved %s -> %s", request, response)
 
