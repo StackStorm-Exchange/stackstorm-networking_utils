@@ -8,6 +8,7 @@ validation and flow control.
 - *contains*: Check if an address or a network is in another network
 - *fping*: Runs a fping and return data about packet loss and latency (requires the fping to be available)
 - *geoip*: Report geoip infomation from MaxMind database(s).
+- *hosts*: List the hosts inside a network
 - *is_valid_asa_ifname*: Check for an valid Cisco ASA interface name.
 - *is_valid_ip*: Check if an valid IP (IPv4 or IPv6) address (with options to exclude loopback).
 - *is_valid_ipv4*: Check if an valid IPv4 address (with options to exclude loopback).
@@ -15,6 +16,7 @@ validation and flow control.
 - *is_valid_ip_port*: Check if an valid IP port (i.e. between 0 and 65535).
 - *ping*: Pings an IP address / Hostname.
 - *resolve*: Resolve a DNS or reverse DNS
+- *subnets*: List the possible subnets of a specific size in a given network 
 - *traceroute_mtr*: Runs a traceroute (requires the mtr command to be available)
 
 ## GeoIP

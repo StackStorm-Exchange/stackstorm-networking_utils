@@ -1,0 +1,33 @@
+---
+description: "Lists all the IP addresses in a given network"
+enabled: true
+entry_point: 'hosts.py'
+name: "hosts"
+pack: "networking_utils"
+
+parameters:
+  family:
+    type: string
+    description: "The network family"
+    position: 1
+    default: any
+    required: true
+    enum:
+      - any
+      - ipv4
+      - ipv6
+
+  network:
+    type: string
+    description: "Network"
+    position: 2
+    required: true
+
+output_schema:
+  hosts:
+    required: true
+    type: array
+    items:
+      type: string
+
+runner_type: "python-script"
