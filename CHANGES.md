@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 1.1.0
+
+* Add hosts and subnets actions
+
 ## 1.0.0
 
 * Drop Python 2.7 support
