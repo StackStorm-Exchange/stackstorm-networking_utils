@@ -28,9 +28,7 @@ class FPingTestCase(NetworkingUtilsBaseActionTestCase):
     def test_fping_localhost(self, mock):
         action = self.get_action_instance()
 
-        mock.return_value = (
-            b"8.8.8.8 : xmt/rcv/%loss = 10/10/0%, min/avg/max = 4.78/4.85/4.91\n"
-        )
+        mock.return_value = b"8.8.8.8 : xmt/rcv/%loss = 10/10/0%, min/avg/max = 4.78/4.85/4.91\n"
         result = action.run("127.0.0.1", interval=1, count=3)
 
         self.assertEquals(result["packets"]["transmitted"], result["packets"]["received"])

@@ -24,8 +24,8 @@ class NetworkingUtilsBaseActionTestCase(BaseActionTestCase):
     def setUp(self):
         super(NetworkingUtilsBaseActionTestCase, self).setUp()
 
-        self._blank_config = self.load_yaml('blank.yaml')
-        self._full_config = self.load_yaml('full.yaml')
+        self._blank_config = self.load_yaml("blank.yaml")
+        self._full_config = self.load_yaml("full.yaml")
 
     def load_yaml(self, filename):
         return yaml.safe_load(self.get_fixture_content(filename))
@@ -40,9 +40,7 @@ class NetworkingUtilsBaseActionTestCase(BaseActionTestCase):
 
     @unittest2.skip("Pack does not currently have any config")
     def test_run_no_config(self):
-        self.assertRaises(ValueError,
-                          self.action_cls,
-                          self.blank_config)
+        self.assertRaises(ValueError, self.action_cls, self.blank_config)
 
     def test_run_is_instance(self):
         action = self.get_action_instance(self.full_config)

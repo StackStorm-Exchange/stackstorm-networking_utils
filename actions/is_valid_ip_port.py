@@ -30,10 +30,8 @@ class IsValidIpPortAction(Action):
         """
 
         if port < 0:
-            raise ValueError("Invalid port: {} is less than 0.".format(
-                port))
+            raise ValueError("Invalid port: {} is less than 0.".format(port))
         elif port > 65535:
-            raise ValueError("Invalid port: {} is greater than 65535.".format(
-                port))
+            raise ValueError("Invalid port: {} is greater than 65535.".format(port))
         else:
             return True

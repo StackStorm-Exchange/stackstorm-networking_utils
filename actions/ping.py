@@ -32,19 +32,17 @@ class Ping(Action):
         results = dict()
 
         try:
-            ping = subprocess.check_output(
-                ["ping", "-c", str(count), host]
-            )
+            ping = subprocess.check_output(["ping", "-c", str(count), host])
         except subprocess.CalledProcessError as e:
-            results['up'] = False
-            results['output'] = e.output
+            results["up"] = False
+            results["output"] = e.output
         else:
-            results['up'] = True
-            results['output'] = ping
+            results["up"] = True
+            results["output"] = ping
 
         if force_success:
             success = True
         else:
-            success = results['up']
+            success = results["up"]
 
         return success, results

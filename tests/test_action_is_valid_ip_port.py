@@ -16,9 +16,7 @@ from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from is_valid_ip_port import IsValidIpPortAction
 
-__all__ = [
-    'IsValidPortActionTestCase'
-]
+__all__ = ["IsValidPortActionTestCase"]
 
 
 class IsValidPortActionTestCase(NetworkingUtilsBaseActionTestCase):
@@ -27,15 +25,11 @@ class IsValidPortActionTestCase(NetworkingUtilsBaseActionTestCase):
 
     def test_run_invalid_port_too_large(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          66000)
+        self.assertRaises(ValueError, action.run, 66000)
 
     def test_run_invalid_port_negitive(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          -10)
+        self.assertRaises(ValueError, action.run, -10)
 
     def test_run_valid_port(self):
         action = self.get_action_instance()

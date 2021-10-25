@@ -19,13 +19,10 @@ from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from geoip import GeoIpAction
 
-__all__ = [
-    'GeoIpActionTestCase'
-]
+__all__ = ["GeoIpActionTestCase"]
 
 
 class FakeISP(object):
-
     @property
     def autonomous_system_number(self):
         return 12345
@@ -44,7 +41,6 @@ class FakeISP(object):
 
 
 class FakeASN(object):
-
     @property
     def autonomous_system_number(self):
         return 12345
@@ -112,8 +108,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     action_cls = GeoIpAction
 
     def test_run_no_databases(self):
-        expected = {"geoip": {},
-                    "error": "No GeoIP2 databases"}
+        expected = {"geoip": {}, "error": "No GeoIP2 databases"}
         action = self.get_action_instance(self.full_config)
 
         (status, result) = action.run(ip_addresses=["192.168.1.1"])
@@ -129,7 +124,7 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                     "Not_an_IP": {
                         "error": {
                             "name": "Error",
-                            "value": "Invalid IP: u'Not_an_IP' does not appear to be an IPv4 or IPv6 address"  # NOQA
+                            "value": "Invalid IP: u'Not_an_IP' does not appear to be an IPv4 or IPv6 address",  # NOQA
                         }
                     }
                 }
@@ -140,16 +135,16 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
                     "Not_an_IP": {
                         "error": {
                             "name": "Error",
-                            "value": "Invalid IP: 'Not_an_IP' does not appear to be an IPv4 or IPv6 address"  # NOQA
+                            "value": "Invalid IP: 'Not_an_IP' does not appear to be an IPv4 or IPv6 address",  # NOQA
                         }
                     }
                 }
             }
 
         action = self.get_action_instance(self.full_config)
-        action._get_databases = MagicMock(return_value=[FakeISPReader(),
-                                                        FakeASNReader(),
-                                                        FakeCityReader()])
+        action._get_databases = MagicMock(
+            return_value=[FakeISPReader(), FakeASNReader(), FakeCityReader()]
+        )
 
         (status, result) = action.run(ip_addresses=["Not_an_IP"])
         self.assertTrue(status)
@@ -158,20 +153,11 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     def test_run_invalid_private_ip(self):
         self.maxDiff = None
 
-        expected = {
-            "geoip": {
-                "192.168.1.1": {
-                    "error": {
-                        'name': "Error",
-                        'value': "Private IP"
-                    }
-                }
-            }
-        }
+        expected = {"geoip": {"192.168.1.1": {"error": {"name": "Error", "value": "Private IP"}}}}
         action = self.get_action_instance(self.full_config)
-        action._get_databases = MagicMock(return_value=[FakeISPReader(),
-                                                        FakeASNReader(),
-                                                        FakeCityReader()])
+        action._get_databases = MagicMock(
+            return_value=[FakeISPReader(), FakeASNReader(), FakeCityReader()]
+        )
 
         (status, result) = action.run(ip_addresses=["192.168.1.1"])
         self.assertTrue(status)
@@ -183,69 +169,39 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         expected = {
             "geoip": {
                 "8.8.8.8": {
-                    'as_num': {'name': "AS Number",
-                               'value': 12345
+                    "as_num": {"name": "AS Number", "value": 12345},
+                    "as_org": {"name": "AS Org", "value": "Google"},
+                    "isp": {"name": "ISP", "value": "Google"},
+                    "org": {"name": "Org", "value": "Google"},
+                    "city": {"name": "City", "value": "London"},
+                    "country": {"name": "Country", "value": "UK"},
+                    "lat": {"name": "Lat", "value": 1.0},
+                    "lon": {"name": "Lon", "value": 1.0},
+                    "link": {
+                        "name": "Google Map",
+                        "value": "https://maps.google.com/maps/place//@1.0,1.0,10z",  # NOQA
                     },
-                    'as_org': {'name': "AS Org",
-                               'value': "Google"
-                    },
-                    'isp': {'name': "ISP",
-                            'value': "Google"
-                    },
-                    'org': {'name': "Org",
-                            'value': "Google"
-                    },
-                    'city': {'name': "City",
-                             'value': "London"
-                    },
-                    'country': {'name': "Country",
-                                'value': "UK"
-                    },
-                    'lat': {'name': "Lat",
-                            'value': 1.0
-                    },
-                    'lon': {'name': "Lon",
-                            'value': 1.0
-                    },
-                    'link': {'name': "Google Map",
-                             'value': 'https://maps.google.com/maps/place//@1.0,1.0,10z'  # NOQA
-                    }
                 },
                 "8.8.4.4": {
-                    'as_num': {'name': "AS Number",
-                               'value': 12345
+                    "as_num": {"name": "AS Number", "value": 12345},
+                    "as_org": {"name": "AS Org", "value": "Google"},
+                    "isp": {"name": "ISP", "value": "Google"},
+                    "org": {"name": "Org", "value": "Google"},
+                    "city": {"name": "City", "value": "London"},
+                    "country": {"name": "Country", "value": "UK"},
+                    "lat": {"name": "Lat", "value": 1.0},
+                    "lon": {"name": "Lon", "value": 1.0},
+                    "link": {
+                        "name": "Google Map",
+                        "value": "https://maps.google.com/maps/place//@1.0,1.0,10z",  # NOQA
                     },
-                    'as_org': {'name': "AS Org",
-                               'value': "Google"
-                    },
-                    'isp': {'name': "ISP",
-                            'value': "Google"
-                    },
-                    'org': {'name': "Org",
-                            'value': "Google"
-                    },
-                    'city': {'name': "City",
-                             'value': "London"
-                    },
-                    'country': {'name': "Country",
-                                'value': "UK"
-                    },
-                    'lat': {'name': "Lat",
-                            'value': 1.0
-                    },
-                    'lon': {'name': "Lon",
-                            'value': 1.0
-                    },
-                    'link': {'name': "Google Map",
-                             'value': 'https://maps.google.com/maps/place//@1.0,1.0,10z'  # NOQA
-                    }
-                }
+                },
             }
         }
         action = self.get_action_instance(self.full_config)
-        action._get_databases = MagicMock(return_value=[FakeISPReader(),
-                                                        FakeASNReader(),
-                                                        FakeCityReader()])
+        action._get_databases = MagicMock(
+            return_value=[FakeISPReader(), FakeASNReader(), FakeCityReader()]
+        )
 
         (status, result) = action.run(ip_addresses=["8.8.8.8", "8.8.4.4"])
         self.assertTrue(status)
@@ -257,57 +213,33 @@ class GeoIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         expected = {
             "geoip": {
                 "8.8.8.8": {
-                    'as_num': {'name': "AS Number",
-                               'value': 12345
+                    "as_num": {"name": "AS Number", "value": 12345},
+                    "as_org": {"name": "AS Org", "value": "Google"},
+                    "city": {"name": "City", "value": "London"},
+                    "country": {"name": "Country", "value": "UK"},
+                    "lat": {"name": "Lat", "value": 1.0},
+                    "lon": {"name": "Lon", "value": 1.0},
+                    "link": {
+                        "name": "Google Map",
+                        "value": "https://maps.google.com/maps/place//@1.0,1.0,10z",  # NOQA
                     },
-                    'as_org': {'name': "AS Org",
-                               'value': "Google"
-                    },
-                    'city': {'name': "City",
-                             'value': "London"
-                    },
-                    'country': {'name': "Country",
-                                'value': "UK"
-                    },
-                    'lat': {'name': "Lat",
-                            'value': 1.0
-                    },
-                    'lon': {'name': "Lon",
-                            'value': 1.0
-                    },
-                    'link': {'name': "Google Map",
-                             'value': 'https://maps.google.com/maps/place//@1.0,1.0,10z'  # NOQA
-                    }
                 },
                 "8.8.4.4": {
-                    'as_num': {'name': "AS Number",
-                               'value': 12345
+                    "as_num": {"name": "AS Number", "value": 12345},
+                    "as_org": {"name": "AS Org", "value": "Google"},
+                    "city": {"name": "City", "value": "London"},
+                    "country": {"name": "Country", "value": "UK"},
+                    "lat": {"name": "Lat", "value": 1.0},
+                    "lon": {"name": "Lon", "value": 1.0},
+                    "link": {
+                        "name": "Google Map",
+                        "value": "https://maps.google.com/maps/place//@1.0,1.0,10z",  # NOQA
                     },
-                    'as_org': {'name': "AS Org",
-                               'value': "Google"
-                    },
-                    'city': {'name': "City",
-                             'value': "London"
-                    },
-                    'country': {'name': "Country",
-                                'value': "UK"
-                    },
-                    'lat': {'name': "Lat",
-                            'value': 1.0
-                    },
-                    'lon': {'name': "Lon",
-                            'value': 1.0
-                    },
-                    'link': {'name': "Google Map",
-                             'value': 'https://maps.google.com/maps/place//@1.0,1.0,10z'  # NOQA
-                    }
-                }
+                },
             }
         }
         action = self.get_action_instance(self.full_config)
-        action._get_databases = MagicMock(return_value=[None,
-                                                        FakeASNReader(),
-                                                        FakeCityReader()])
+        action._get_databases = MagicMock(return_value=[None, FakeASNReader(), FakeCityReader()])
 
         (status, result) = action.run(ip_addresses=["8.8.8.8", "8.8.4.4"])
         self.assertTrue(status)

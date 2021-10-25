@@ -47,9 +47,7 @@ class FPing(Action):
 
         self.logger.debug("Running FPING: %s", " ".join(command))
 
-        fping = (
-            subprocess.check_output(command, stderr=subprocess.STDOUT).decode().strip()
-        )
+        fping = subprocess.check_output(command, stderr=subprocess.STDOUT).decode().strip()
 
         self.logger.debug("Returned: %s", fping)
 

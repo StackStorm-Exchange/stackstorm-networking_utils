@@ -27,17 +27,17 @@ class GeoIpAction(Action):
         """
 
         try:
-            reader_isp = geoip2.database.Reader(self.config['isp_db'])
+            reader_isp = geoip2.database.Reader(self.config["isp_db"])
         except IOError:
             reader_isp = None
 
         try:
-            reader_asn = geoip2.database.Reader(self.config['asn_db'])
+            reader_asn = geoip2.database.Reader(self.config["asn_db"])
         except IOError:
             reader_asn = None
 
         try:
-            reader_city = geoip2.database.Reader(self.config['city_db'])
+            reader_city = geoip2.database.Reader(self.config["city_db"])
         except IOError:
             reader_city = None
 
@@ -64,7 +64,7 @@ class GeoIpAction(Action):
         (reader_isp, reader_asn, reader_city) = self._get_databases()
 
         if reader_city is None and reader_isp is None and reader_asn is None:
-            results['error'] = "No GeoIP2 databases"
+            results["error"] = "No GeoIP2 databases"
             return (status, results)
         else:
             status = True
@@ -78,63 +78,64 @@ class GeoIpAction(Action):
                 try:
                     ip_obj = ipaddress.ip_address(six.text_type(ip_address))
                 except ValueError as e:
-                    results['geoip'][ip_address] = {
-                        'error': {'name': "Error",
-                                  'value': "Invalid IP: {}".format(e)}
+                    results["geoip"][ip_address] = {
+                        "error": {"name": "Error", "value": "Invalid IP: {}".format(e)}
                     }
                     continue
 
                 if ip_obj.is_private:
-                    details['error'] = {'name': "Error",
-                                        'value': "Private IP"}
-                    results['geoip'][ip_address] = details
+                    details["error"] = {"name": "Error", "value": "Private IP"}
+                    results["geoip"][ip_address] = details
                     continue
 
                 if reader_isp:
                     response = reader_isp.isp(ip_address)
 
-                    details['as_num'] = {
-                        'name': "AS Number",
-                        'value': response.autonomous_system_number}
-                    details['as_org'] = {
-                        'name': "AS Org",
-                        'value': response.autonomous_system_organization}
-                    details['isp'] = {'name': "ISP",
-                                      'value': response.isp}
-                    details['org'] = {'name': "Org",
-                                      'value': response.organization}
+                    details["as_num"] = {
+                        "name": "AS Number",
+                        "value": response.autonomous_system_number,
+                    }
+                    details["as_org"] = {
+                        "name": "AS Org",
+                        "value": response.autonomous_system_organization,
+                    }
+                    details["isp"] = {"name": "ISP", "value": response.isp}
+                    details["org"] = {"name": "Org", "value": response.organization}
                 elif reader_asn:
                     response = reader_asn.asn(ip_address)
 
-                    details['as_num'] = {
-                        'name': "AS Number",
-                        'value': response.autonomous_system_number}
-                    details['as_org'] = {
-                        'name': "AS Org",
-                        'value': response.autonomous_system_organization}
+                    details["as_num"] = {
+                        "name": "AS Number",
+                        "value": response.autonomous_system_number,
+                    }
+                    details["as_org"] = {
+                        "name": "AS Org",
+                        "value": response.autonomous_system_organization,
+                    }
 
                 if reader_city:
                     response = reader_city.city(ip_address)
 
-                    details['city'] = {'name': "City",
-                                       'value': response.city.name}
-                    details['country'] = {'name': "Country",
-                                          'value': response.country.name}
-                    details['lat'] = {'name': "Lat",
-                                      'value': response.location.latitude}  # NOQA pylint: disable=no-member
-                    details['lon'] = {'name': "Lon",
-                                      'value': response.location.longitude}  # NOQA pylint: disable=no-member
+                    details["city"] = {"name": "City", "value": response.city.name}
+                    details["country"] = {"name": "Country", "value": response.country.name}
+                    details["lat"] = {
+                        "name": "Lat",
+                        "value": response.location.latitude,
+                    }  # NOQA pylint: disable=no-member
+                    details["lon"] = {
+                        "name": "Lon",
+                        "value": response.location.longitude,
+                    }  # NOQA pylint: disable=no-member
 
                     url = "maps.google.com"
-                    details['link'] = {
-                        'name': "Google Map",
-                        'value': "https://{url}/maps/place//@{lat},{lon},{z}z".format(
-                            url=url,
-                            z=10,
-                            lat=details['lat']['value'],
-                            lon=details['lon']['value'])}
+                    details["link"] = {
+                        "name": "Google Map",
+                        "value": "https://{url}/maps/place//@{lat},{lon},{z}z".format(
+                            url=url, z=10, lat=details["lat"]["value"], lon=details["lon"]["value"]
+                        ),
+                    }
 
-                results['geoip'][ip_address] = details
+                results["geoip"][ip_address] = details
         except Exception:
             self.logger.error("Something went really wrong!")
             raise

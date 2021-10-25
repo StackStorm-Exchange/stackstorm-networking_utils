@@ -16,9 +16,7 @@ from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from is_valid_hostname import IsValidHostnameAction
 
-__all__ = [
-    'IsValidHostnameActionTestCase'
-]
+__all__ = ["IsValidHostnameActionTestCase"]
 
 
 class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
@@ -26,10 +24,7 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
     action_cls = IsValidHostnameAction
 
     def test_run_valid_hostname(self):
-        expected = {"final_dot": False,
-                    "fqdn": False,
-                    'hostname': "foo",
-                    'valid': True}
+        expected = {"final_dot": False, "fqdn": False, "hostname": "foo", "valid": True}
 
         action = self.get_action_instance()
         results = action.run("foo")
@@ -37,10 +32,7 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(results, expected)
 
     def test_run_valid_fqdn_final(self):
-        expected = {"final_dot": False,
-                    "fqdn": True,
-                    'hostname': "foo.example.org",
-                    'valid': True}
+        expected = {"final_dot": False, "fqdn": True, "hostname": "foo.example.org", "valid": True}
 
         action = self.get_action_instance()
         results = action.run("foo.example.org")
@@ -48,10 +40,7 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(results, expected)
 
     def test_run_valid_fqdn_final_dot(self):
-        expected = {"final_dot": True,
-                    "fqdn": True,
-                    'hostname': "foo.example.org.",
-                    'valid': True}
+        expected = {"final_dot": True, "fqdn": True, "hostname": "foo.example.org.", "valid": True}
 
         action = self.get_action_instance()
         results = action.run("foo.example.org.")
@@ -60,42 +49,28 @@ class IsValidHostnameActionTestCase(NetworkingUtilsBaseActionTestCase):
 
     def test_run_invalid_hostname_too_long_255(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "a" * 255 + ".")
+        self.assertRaises(ValueError, action.run, "a" * 255 + ".")
 
     def test_run_invalid_hostname_too_long_300(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "a" * 300 + ".")
+        self.assertRaises(ValueError, action.run, "a" * 300 + ".")
 
     def test_run_invalid_hostname_with_dollar(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "foobar$")
+        self.assertRaises(ValueError, action.run, "foobar$")
 
     def test_run_invalid_hostname_with_long_label(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "foo." + "a" * 64 + ".com.")
+        self.assertRaises(ValueError, action.run, "foo." + "a" * 64 + ".com.")
 
     def test_run_invalid_hostname_label_startswith_dash(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "foo.-sub.example.com")
+        self.assertRaises(ValueError, action.run, "foo.-sub.example.com")
 
     def test_run_invalid_hostname_label_endswith_dash(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "foo.sub-.example.com")
+        self.assertRaises(ValueError, action.run, "foo.sub-.example.com")
 
     def test_run_invalid_hostname_numeric_tld(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "foo.sub-.example.123")
+        self.assertRaises(ValueError, action.run, "foo.sub-.example.123")
