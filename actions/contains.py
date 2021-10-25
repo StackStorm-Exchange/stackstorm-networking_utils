@@ -36,8 +36,8 @@ class Contains(Action):
         elif item_type == "network":
             obj = ipaddress.ip_network(six.text_type(item))
             return (
-                container_obj.network_address <= obj.network_address
-                and container_obj.broadcast_address >= obj.broadcast_address
+                container_obj.network_address <= obj.network_address and
+                container_obj.broadcast_address >= obj.broadcast_address
             )
         else:
             raise TypeError("Unknown item type: {}".format(item_type))
