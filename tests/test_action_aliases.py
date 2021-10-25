@@ -19,17 +19,15 @@ class GeoIP(BaseActionAliasTestCase):
     action_alias_name = "geoip"
 
     def test_geoip(self):
-        format_string = self.action_alias_db.formats[0]['representation'][0]
+        format_string = self.action_alias_db.formats[0]["representation"][0]
         format_strings = self.action_alias_db.get_format_strings()
 
         command = "geoip 192.168.1.1,192.168.1.2"
-        expected_parameters = {
-            'ip_addresses': "192.168.1.1,192.168.1.2"
-        }
+        expected_parameters = {"ip_addresses": "192.168.1.1,192.168.1.2"}
 
-        self.assertExtractedParametersMatch(format_string=format_string,
-                                            command=command,
-                                            parameters=expected_parameters)
+        self.assertExtractedParametersMatch(
+            format_string=format_string, command=command, parameters=expected_parameters
+        )
         self.assertCommandMatchesExactlyOneFormatString(
-            format_strings=format_strings,
-            command=command)
+            format_strings=format_strings, command=command
+        )

@@ -16,9 +16,7 @@ from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from is_valid_asa_nameif import IsValidNameifAction
 
-__all__ = [
-    'IsValidNameifActionTestCase'
-]
+__all__ = ["IsValidNameifActionTestCase"]
 
 
 class IsValidNameifActionTestCase(NetworkingUtilsBaseActionTestCase):
@@ -27,15 +25,11 @@ class IsValidNameifActionTestCase(NetworkingUtilsBaseActionTestCase):
 
     def test_run_invalid_too_long_nameif(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "a" * 50)
+        self.assertRaises(ValueError, action.run, "a" * 50)
 
     def test_run_invalid_spaces_nameif(self):
         action = self.get_action_instance()
-        self.assertRaises(ValueError,
-                          action.run,
-                          "foo bar")
+        self.assertRaises(ValueError, action.run, "foo bar")
 
     def test_run_valid_nameif(self):
         action = self.get_action_instance()

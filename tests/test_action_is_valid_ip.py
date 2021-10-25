@@ -16,9 +16,7 @@ from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from is_valid_ip import IsValidIpAction
 
-__all__ = [
-    'IsValidIpActionTestCase'
-]
+__all__ = ["IsValidIpActionTestCase"]
 
 
 class IsValidIpActionTestCase(NetworkingUtilsBaseActionTestCase):
@@ -26,14 +24,16 @@ class IsValidIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     action_cls = IsValidIpAction
 
     def test_run_valid_ip_v4(self):
-        expected = {'is_link_local': False,
-                    'is_loopback': False,
-                    'is_multicast': False,
-                    'is_private': True,
-                    'is_reserved': False,
-                    'is_unspecified': False,
-                    'reverse_pointer': '1.0.168.192.in-addr.arpa',
-                    'version': 4}
+        expected = {
+            "is_link_local": False,
+            "is_loopback": False,
+            "is_multicast": False,
+            "is_private": True,
+            "is_reserved": False,
+            "is_unspecified": False,
+            "reverse_pointer": "1.0.168.192.in-addr.arpa",
+            "version": 4,
+        }
 
         action = self.get_action_instance()
 
@@ -41,14 +41,16 @@ class IsValidIpActionTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(result, expected)
 
     def test_run_valid_ip_v6(self):
-        expected = {'is_link_local': False,
-                    'is_loopback': False,
-                    'is_multicast': False,
-                    'is_private': False,
-                    'is_reserved': True,
-                    'is_unspecified': False,
-                    'reverse_pointer': '8.1.f.a.1.0.0.0.3.0.b.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.6.7.1.ip6.arpa',  # noqa
-                    'version': 6}
+        expected = {
+            "is_link_local": False,
+            "is_loopback": False,
+            "is_multicast": False,
+            "is_private": False,
+            "is_reserved": True,
+            "is_unspecified": False,
+            "reverse_pointer": "8.1.f.a.1.0.0.0.3.0.b.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.6.7.1.ip6.arpa",  # noqa
+            "version": 6,
+        }
 
         action = self.get_action_instance()
         result = action.run("1762:0:0:0:0:B03:1:AF18")
@@ -57,68 +59,56 @@ class IsValidIpActionTestCase(NetworkingUtilsBaseActionTestCase):
     def test_run_invalid_ip_v6(self):
         action = self.get_action_instance()
 
-        self.assertRaises(ValueError,
-                          action.run,
-                          "1762:%:0:0:0:B03:1:AF18")
+        self.assertRaises(ValueError, action.run, "1762:%:0:0:0:B03:1:AF18")
 
     def test_run_ipv4_loopback_invalid_with_no_loopback(self):
         action = self.get_action_instance()
 
-        self.assertRaises(ValueError,
-                          action.run,
-                          "127.0.0.1",
-                          no_loopback=True)
+        self.assertRaises(ValueError, action.run, "127.0.0.1", no_loopback=True)
 
     def test_run_ipv6_loopback_invalid_with_no_loopback(self):
         action = self.get_action_instance()
 
-        self.assertRaises(ValueError,
-                          action.run,
-                          "::1",
-                          no_loopback=True)
+        self.assertRaises(ValueError, action.run, "::1", no_loopback=True)
 
     def test_run_ipv4_valid_with_only_v4(self):
-        expected = {'is_link_local': False,
-                    'is_loopback': False,
-                    'is_multicast': False,
-                    'is_private': True,
-                    'is_reserved': False,
-                    'is_unspecified': False,
-                    'reverse_pointer': '1.0.168.192.in-addr.arpa',
-                    'version': 4}
+        expected = {
+            "is_link_local": False,
+            "is_loopback": False,
+            "is_multicast": False,
+            "is_private": True,
+            "is_reserved": False,
+            "is_unspecified": False,
+            "reverse_pointer": "1.0.168.192.in-addr.arpa",
+            "version": 4,
+        }
 
         action = self.get_action_instance()
-        result = action.run("192.168.0.1",
-                            only_v4=True)
+        result = action.run("192.168.0.1", only_v4=True)
         self.assertEqual(result, expected)
 
     def test_run_ipv6_invalid_with_only_v4(self):
         action = self.get_action_instance()
 
-        self.assertRaises(ValueError,
-                          action.run,
-                          "1762:0:0:0:0:B03:1:AF18",
-                          only_v4=True)
+        self.assertRaises(ValueError, action.run, "1762:0:0:0:0:B03:1:AF18", only_v4=True)
 
     def test_run_ipv6_valid_with_only_v6(self):
-        expected = {'is_link_local': False,
-                    'is_loopback': False,
-                    'is_multicast': False,
-                    'is_private': False,
-                    'is_reserved': True,
-                    'is_unspecified': False,
-                    'reverse_pointer': '8.1.f.a.1.0.0.0.3.0.b.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.6.7.1.ip6.arpa',  # noqa
-                    'version': 6}
+        expected = {
+            "is_link_local": False,
+            "is_loopback": False,
+            "is_multicast": False,
+            "is_private": False,
+            "is_reserved": True,
+            "is_unspecified": False,
+            "reverse_pointer": "8.1.f.a.1.0.0.0.3.0.b.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.6.7.1.ip6.arpa",  # noqa
+            "version": 6,
+        }
 
         action = self.get_action_instance()
-        result = action.run("1762:0:0:0:0:B03:1:AF18",
-                            only_v6=True)
+        result = action.run("1762:0:0:0:0:B03:1:AF18", only_v6=True)
         self.assertEqual(result, expected)
 
     def test_run_ipv4_invalid_with_only_v6(self):
         action = self.get_action_instance()
 
-        self.assertRaises(ValueError,
-                          action.run,
-                          "127.0.0.1",
-                          only_v6=True)
+        self.assertRaises(ValueError, action.run, "127.0.0.1", only_v6=True)

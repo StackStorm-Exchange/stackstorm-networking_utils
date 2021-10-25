@@ -16,9 +16,7 @@ from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from hosts import HostsAction
 
-__all__ = [
-    'HostsTestCase'
-]
+__all__ = ["HostsTestCase"]
 
 
 class HostsTestCase(NetworkingUtilsBaseActionTestCase):
@@ -33,20 +31,22 @@ class HostsTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(result, expected)
 
     def test_28_ipv4_network(self):
-        expected = ['192.168.0.1',
-                    '192.168.0.2',
-                    '192.168.0.3',
-                    '192.168.0.4',
-                    '192.168.0.5',
-                    '192.168.0.6',
-                    '192.168.0.7',
-                    '192.168.0.8',
-                    '192.168.0.9',
-                    '192.168.0.10',
-                    '192.168.0.11',
-                    '192.168.0.12',
-                    '192.168.0.13',
-                    '192.168.0.14']
+        expected = [
+            "192.168.0.1",
+            "192.168.0.2",
+            "192.168.0.3",
+            "192.168.0.4",
+            "192.168.0.5",
+            "192.168.0.6",
+            "192.168.0.7",
+            "192.168.0.8",
+            "192.168.0.9",
+            "192.168.0.10",
+            "192.168.0.11",
+            "192.168.0.12",
+            "192.168.0.13",
+            "192.168.0.14",
+        ]
 
         action = self.get_action_instance()
 
@@ -54,14 +54,14 @@ class HostsTestCase(NetworkingUtilsBaseActionTestCase):
         self.assertEqual(result, expected)
 
     def test_127_ipv6_network(self):
-        expected = ['2001:cafe::', '2001:cafe::1']
+        expected = ["2001:cafe::", "2001:cafe::1"]
         action = self.get_action_instance()
 
         result = action.run(network="2001:cafe::/127", family="ipv6")
         self.assertEqual(result, expected)
 
     def test_128_ipv6_network(self):
-        expected = ['2001:cafe::1', '2001:cafe::2', '2001:cafe::3']
+        expected = ["2001:cafe::1", "2001:cafe::2", "2001:cafe::3"]
 
         action = self.get_action_instance()
 

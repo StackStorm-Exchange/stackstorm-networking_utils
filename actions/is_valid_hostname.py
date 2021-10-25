@@ -33,23 +33,21 @@ class IsValidHostnameAction(Action):
           dict: With extra information about the hostname.
         """
 
-        results = {
-            "hostname": hostname
-        }
+        results = {"hostname": hostname}
         invalid_chars = re.compile("[^a-z0-9-]", re.IGNORECASE)
 
-        if hostname.endswith('.'):
-            hostname.strip('.')
+        if hostname.endswith("."):
+            hostname.strip(".")
             results["final_dot"] = True
         else:
             results["final_dot"] = False
 
-        if hostname.count('.') > 0:
+        if hostname.count(".") > 0:
             results["fqdn"] = True
         else:
             results["fqdn"] = False
 
-        labels = hostname.split('.')
+        labels = hostname.split(".")
 
         if len(hostname) > 253:
             raise ValueError("Hostname is longer than 253 chars.")
@@ -64,6 +62,6 @@ class IsValidHostnameAction(Action):
         elif re.match(r"[0-9]+$", labels[-1]):
             raise ValueError("All numberic TLD!")
         else:
-            results['valid'] = True
+            results["valid"] = True
 
         return results

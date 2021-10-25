@@ -16,9 +16,7 @@ from networking_utils_base_test_case import NetworkingUtilsBaseActionTestCase
 
 from resolve import Resolve
 
-__all__ = [
-    'ResolveTestCase'
-]
+__all__ = ["ResolveTestCase"]
 
 
 class ResolveTestCase(NetworkingUtilsBaseActionTestCase):

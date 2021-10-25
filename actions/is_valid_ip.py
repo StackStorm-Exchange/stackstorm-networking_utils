@@ -42,14 +42,16 @@ class IsValidIpAction(Action):
         # ip address is a string and not unicode.
         ip_obj = ipaddress.ip_address(six.text_type(ip_address))
 
-        results = {'version': ip_obj.version,
-                   'is_private': ip_obj.is_private,
-                   'is_link_local': ip_obj.is_link_local,
-                   'is_unspecified': ip_obj.is_unspecified,
-                   'reverse_pointer': ip_obj.reverse_pointer,
-                   'is_multicast': ip_obj.is_multicast,
-                   'is_reserved': ip_obj.is_reserved,
-                   'is_loopback': ip_obj.is_loopback}
+        results = {
+            "version": ip_obj.version,
+            "is_private": ip_obj.is_private,
+            "is_link_local": ip_obj.is_link_local,
+            "is_unspecified": ip_obj.is_unspecified,
+            "reverse_pointer": ip_obj.reverse_pointer,
+            "is_multicast": ip_obj.is_multicast,
+            "is_reserved": ip_obj.is_reserved,
+            "is_loopback": ip_obj.is_loopback,
+        }
 
         if only_v6 and ip_obj.version == 4:
             raise ValueError("Valid IPv4 address, but IPv6 is required.")
@@ -57,7 +59,6 @@ class IsValidIpAction(Action):
             raise ValueError("Valid IPv6 address, but IPv4 is required.")
 
         if no_loopback and ip_obj.is_loopback:
-            raise ValueError("Address is a IPv{} loopback address".format(
-                ip_obj.version))
+            raise ValueError("Address is a IPv{} loopback address".format(ip_obj.version))
 
         return results
