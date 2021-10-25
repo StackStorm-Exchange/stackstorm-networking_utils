@@ -1,0 +1,39 @@
+---
+description: "Returns subnets from the specified network"
+enabled: true
+entry_point: 'subnets.py'
+name: "subnets"
+pack: "networking_utils"
+
+parameters:
+  family:
+    type: string
+    description: "The network family"
+    position: 1
+    default: any
+    required: true
+    enum:
+      - any
+      - ipv4
+      - ipv6
+
+  network:
+    type: string
+    description: "Network"
+    position: 2
+    required: true
+
+  new_prefix:
+    type: integer
+    description: "The desired prefix size for the subnets"
+    position: 3
+    required: true
+
+output_schema:
+  subnets:
+    required: true
+    type: array
+    items:
+      type: string
+
+runner_type: "python-script"
