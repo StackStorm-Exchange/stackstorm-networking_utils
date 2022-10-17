@@ -5,17 +5,17 @@ from st2common.runners.base_action import Action
 
 import ipaddress
 
-class IpCalc(Action):
 
-    def run(self,subnet):
+class IpCalc(Action):
+    def run(self, subnet):
 
         rc = True
-        
+
         try:
             network = ipaddress.ip_network(subnet)
         except ValueError:
             rc = False
-            return ( rc, "Error: Not a valid Subnet")
+            return (rc, "Error: Not a valid Subnet")
 
         netmask = str(network.netmask)
         broadcast = str(network.broadcast_address)
@@ -23,12 +23,12 @@ class IpCalc(Action):
         host_min = str(list(network.hosts())[0])
         host_max = str(list(network.hosts())[-1])
 
-        subnet_infos =  {
-          "netmask": netmask,
-          "broadcast": broadcast,
-          "prefixlen": prefix_length,
-          "hostmin": host_min,
-          "hostmax": host_max
+        subnet_infos = {
+            "netmask": netmask,
+            "broadcast": broadcast,
+            "prefixlen": prefix_length,
+            "hostmin": host_min,
+            "hostmax": host_max,
         }
 
         return (rc, subnet_infos)
