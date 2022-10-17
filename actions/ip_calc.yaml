@@ -1,0 +1,12 @@
+---
+name: ip_calc
+pack: networking_utils
+description: "IP calculator"
+runner_type: python-script
+entry_point: ip_calc.py
+enabled: true
+parameters:
+  subnet:
+    type: string
+    description: IPv4 Subnet
+    required: True

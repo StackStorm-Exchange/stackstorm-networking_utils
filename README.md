@@ -9,6 +9,7 @@ validation and flow control.
 - *fping*: Runs a fping and return data about packet loss and latency (requires the fping to be available)
 - *geoip*: Report geoip infomation from MaxMind database(s).
 - *hosts*: List the hosts inside a network
+- *ip_calc*: Retrieve netmask, prefix length, broadcast and usable hosts range of a subnet.
 - *is_valid_asa_ifname*: Check for an valid Cisco ASA interface name.
 - *is_valid_ip*: Check if an valid IP (IPv4 or IPv6) address (with options to exclude loopback).
 - *is_valid_ipv4*: Check if an valid IPv4 address (with options to exclude loopback).
