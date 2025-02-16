@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+* Updated test files to work with latest CI updates
+
 ## 1.2.0
 
 * Add IP calculator action
