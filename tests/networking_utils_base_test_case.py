@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 
 import yaml
-import unittest2
+import unittest
 
 from st2tests.base import BaseActionTestCase
 
@@ -38,7 +38,7 @@ class NetworkingUtilsBaseActionTestCase(BaseActionTestCase):
     def full_config(self):
         return self._full_config
 
-    @unittest2.skip("Pack does not currently have any config")
+    @unittest.skip("Pack does not currently have any config")
     def test_run_no_config(self):
         self.assertRaises(ValueError, self.action_cls, self.blank_config)
 

@@ -31,4 +31,4 @@ class FPingTestCase(NetworkingUtilsBaseActionTestCase):
         mock.return_value = b"8.8.8.8 : xmt/rcv/%loss = 10/10/0%, min/avg/max = 4.78/4.85/4.91\n"
         result = action.run("127.0.0.1", interval=1, count=3)
 
-        self.assertEquals(result["packets"]["transmitted"], result["packets"]["received"])
+        self.assertEqual(result["packets"]["transmitted"], result["packets"]["received"])
